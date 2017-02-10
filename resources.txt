@@ -1,0 +1,15 @@
+http://stackoverflow.com/questions/31984751/google-drive-can-corrupt-repositories-in-github-desktop
+https://git-scm.com/book/ch4-2.html
+https://github.com/ITGuyJosh/eCorpi
+http://flight-manual.atom.io/using-atom/sections/panes/
+http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/bootstrap-fixed-layout.php
+http://stackoverflow.com/questions/10336194/twitter-bootstrap-top-nav-bar-blocking-top-content-of-the-page
+http://jsfiddle.net/S3Gvf/4/
+http://stackoverflow.com/questions/19089384/twitter-bootstrap-3-two-columns-full-height
+http://stackoverflow.com/questions/30304136/do-php-javascript-html-contact-forms-work-locally-on-a-computer-or-does-it-only
+https://github.com/blueimp/jQuery-File-Upload
+https://blueimp.github.io/jQuery-File-Upload/
+http://stackoverflow.com/questions/40442881/bootstrap-grid-and-scrolling
+http://jsfiddle.net/jme11/v4g2rmf4/
+http://stackoverflow.com/questions/21187930/fill-full-screen-design-with-twitter-bootstrap
+https://standards.usa.gov/colors/
