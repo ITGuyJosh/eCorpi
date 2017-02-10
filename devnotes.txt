@@ -1,0 +1,3 @@
+Responsiveness
+- Adjust padding of containers on smaller resolutions
+++ padding on top and extra on edges
