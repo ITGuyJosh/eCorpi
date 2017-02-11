@@ -19,6 +19,16 @@ section {
   background: #f1f1f1;
 }
 
+.search-bar {
+  //padding: 10px;
+}
+
+.overview-content {
+  padding-top: 2%;
+  overflow-y: auto;
+  height: 94%;
+}
+
 .visualisation-pane {
   width: 100%;
   height: 100%;

@@ -1,3 +1,4 @@
+10/2
 http://stackoverflow.com/questions/31984751/google-drive-can-corrupt-repositories-in-github-desktop
 https://git-scm.com/book/ch4-2.html
 https://github.com/ITGuyJosh/eCorpi
@@ -13,3 +14,11 @@ http://stackoverflow.com/questions/40442881/bootstrap-grid-and-scrolling
 http://jsfiddle.net/jme11/v4g2rmf4/
 http://stackoverflow.com/questions/21187930/fill-full-screen-design-with-twitter-bootstrap
 https://standards.usa.gov/colors/
+
+11/2
+http://www.w3schools.com/bootstrap/bootstrap_navbar.asp
+http://getbootstrap.com/components/#dropdowns
+http://www.lipsum.com/feed/html
+http://stackoverflow.com/questions/18183296/how-can-i-add-a-vertical-scrollbar-to-my-div-automatically
+http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh
+https://css-tricks.com/using-flexbox/
