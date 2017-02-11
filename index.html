@@ -41,8 +41,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li data-toggle="modal" data-target="#load-modal"><a href="#">Load</a></li>
                     <li data-toggle="modal" data-target="#upload-modal"><a href="#">Upload</a></li>
-                    <li><a href="#">Tags</a></li>
-                    <li><a href="#">Export</a></li>
+                    <li data-toggle="modal" data-target="#tag-modal"><a href="#">Tags</a></li>
+                    <li data-toggle="modal" data-target="#export-modal"><a href="#">Export</a></li>
                 </ul>
             </div>
             </div>
@@ -85,49 +85,125 @@
     <!-- UPLOAD MODAL -->
 
     <div class="modal fade" id="upload-modal" tabindex="-1" role="dialog" aria-labelledby="upload-modal-label">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="upload-modal-label">Upload Document</h4>
-          </div>
-          <div class="modal-body">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="upload-modal-label">Upload Document</h4>
+                </div>
+                <div class="modal-body">
 
-          <div class="form-group upload-form">
-            <label class="btn btn-primary" for="file-selector">
+                    <div class="form-group upload-form">
+                        <label class="btn btn-primary" for="file-selector">
               <input id="file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());">
               Select file...
           </label>
-          <span class='label label-info' id="upload-file-info"></span>
-          <div class="upload-form-meta">              
-          <h5>Optional Meta Data</h5>
-          <input type="text" class="form-control" placeholder="Author..." aria-describedby="author-text" id="file-meta-author">
-          <input type="text" class="form-control" placeholder="Title..." aria-describedby="title-text" id="file-meta-title">
-          <input type="text" class="form-control" placeholder="Genre..." aria-describedby="title-text" id="file-meta-genre">
-          </div>
-        </div>
+                        <span class='label label-info' id="upload-file-info"></span>
+                        <div class="upload-form-meta">
+                            <h5>Optional Meta Data</h5>
+                            <input type="text" class="form-control" placeholder="Author..." aria-describedby="author-text" id="file-meta-author">
+                            <input type="text" class="form-control" placeholder="Title..." aria-describedby="title-text" id="file-meta-title">
+                            <input type="text" class="form-control" placeholder="Genre..." aria-describedby="title-text" id="file-meta-genre">
+                        </div>
+                    </div>
 
 
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Upload</button>
-          </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- TAGS MODAL -->
 
+    <div class="modal fade" id="tag-modal" tabindex="-1" role="dialog" aria-labelledby="tags-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="upload-modal-label">Tag Management</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row schema-tags">
+                        <div class="col-md-4 available-tags">
+                            <h5>Available Tags</h5>
+                            <div class="list-group">
+                                <button type="button" class="list-group-item">Tag 1</button>
+                                <button type="button" class="list-group-item">Tag 2</button>
+                                <button type="button" class="list-group-item">Tag 3</button>
+                                <button type="button" class="list-group-item">Tag 4</button>
+                                <button type="button" class="list-group-item">Tag 5</button>
+                            </div>
+
+                            <!-- <div class="modal-footer">
+                          <button type="button" class="btn btn-primary">New</button>
+                      </div> -->
+
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <form>
+                                <div class="form-group">
+                                    <div class="tags-form">
+                                        <h5>Modify</h5>
+                                        <input type="text" class="form-control" placeholder="Element..." aria-describedby="element-text" id="tag-element">
+                                        <input type="text" class="form-control" placeholder="Attribute..." aria-describedby="attribute-text" id="tag-attribute">
+                                        <input type="text" class="form-control" placeholder="Value..." aria-describedby="value-text" id="tag-value">
+                                    </div>
+
+                                    <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">New</button>
+                        </div> -->
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">New</button>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- EXPORT MODAL -->
 
+    <div class="modal fade" id="export-modal" tabindex="-1" role="dialog" aria-labelledby="export-modal-label">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="export-modal-label">Export File</h4>
+                </div>
+                <div class="modal-body">
 
+                    <h5>Select a file to download.</h5>
+                    <div class="list-group export-links">
+                        <a href="#" class="list-group-item">Document metadata<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                        <a href="#" class="list-group-item">Visualisation extract<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                        <a href="#" class="list-group-item">System schema<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- MAIN INTERFACE -->
     <section>
         <div class="container-fluid fill custom-main-interface">
             <div class="row fill">
 
-          <!-- OVERVIEW -->
+                <!-- OVERVIEW -->
 
                 <div class="col-md-5 fill custom-overview-pane">
                     <div class="overview-pane">

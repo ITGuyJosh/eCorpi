@@ -16,11 +16,22 @@ section {
 .upload-form-meta {
   margin-top: 30px;
 }
-.upload-form-meta input {
+.form-group input {
   margin-top: 10px;
 }
 
+.available-tags, .button:active, .button:active, button:focus, .button:focus, button:hover, .button:hover{
+    outline:none !important;
+}
 
+.schema-tags h5 {
+  text-align: center;
+}
+
+.export-links span {
+  float: right;
+  margin-top: 1.4px;
+}
 
 /* Main Interface */
 .overview-pane {
