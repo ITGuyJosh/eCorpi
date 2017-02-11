@@ -22,3 +22,27 @@ http://www.lipsum.com/feed/html
 http://stackoverflow.com/questions/18183296/how-can-i-add-a-vertical-scrollbar-to-my-div-automatically
 http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh
 https://css-tricks.com/using-flexbox/
+http://www.w3schools.com/Bootstrap/bootstrap_glyphicons.asp
+
+Modal Window / Popup
+I didn't know this is what I wanted, but now I do.
+- Common for guiding users workflow or interaction
+- Grey out background so users know to focus on the popup (lightbox design)
+- Bootstrap Modal or jQuery-UI dialog boxes
+
+https://www.sitepoint.com/14-jquery-modal-dialog-boxes/
+https://en.wikipedia.org/wiki/Modal_window
+https://en.wikipedia.org/wiki/Mode_(computer_interface)
+https://en.wikipedia.org/wiki/Palette_window
+https://en.wikipedia.org/wiki/Lightbox_(JavaScript)
+http://www.w3schools.com/howto/howto_css_modals.asp
+http://jquerymodal.com/
+http://stackoverflow.com/questions/1556597/using-jquery-fancybox-or-lightbox-to-display-a-contact-form
+http://jqueryui.com/dialog/
+https://www.tutorialspoint.com/jqueryui/jqueryui_dialog.htm
+http://getbootstrap.com/javascript/#modals
+https://www.google.co.uk/search?q=modal.js&oq=modal.js&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8#q=bootstrap-modal.js
+http://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
+http://getbootstrap.com/getting-started/#support-fixed-position-keyboards
+
+Aria is used for screen readers / accessibility interfaces
