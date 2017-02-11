@@ -67,3 +67,15 @@ section {
     padding-top: 0px;
   }
 }
+
+@media (max-width: 991px) {
+  .custom-overview-pane {
+    padding-right: 15px;
+  }
+
+  .custom-visualisation-pane {
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
