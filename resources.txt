@@ -46,3 +46,18 @@ http://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
 http://getbootstrap.com/getting-started/#support-fixed-position-keyboards
 
 Aria is used for screen readers / accessibility interfaces
+
+http://www.w3schools.com/bootstrap/bootstrap_ref_js_modal.asp
+https://www.google.co.uk/search?q=modal.js&oq=modal.js&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8#q=bootstrap-modal.js
+http://getbootstrap.com/getting-started/#support-fixed-position-keyboards
+http://getbootstrap.com/javascript/#modals
+http://stackoverflow.com/questions/18933084/what-are-these-attibutes-aria-labelledby-and-aria-hidden
+http://getbootstrap.com/components/#input-groups
+http://www.w3schools.com/bootstrap/bootstrap_forms_inputs.asp
+http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button
+https://www.google.co.uk/search?q=bootstrap+form+upload&oq=bootstrap+form+up&aqs=chrome.1.69i57j0l5.7471j0j7&sourceid=chrome&ie=UTF-8
+https://getbootstrap.com/examples/grid/
+http://getbootstrap.com/components/#list-group
+http://stackoverflow.com/questions/23333231/bootstrap-button-shows-blue-outline-when-clicked
+http://www.w3schools.com/bootstrap/bootstrap_forms.asp
+http://stackoverflow.com/questions/21961469/bootstrap-glyphicon-in-span-with-href

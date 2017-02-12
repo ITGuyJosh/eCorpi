@@ -24,6 +24,19 @@ section {
     outline:none !important;
 }
 
+.add-field {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.tags-form input {
+  margin-top: 0;
+}
+
+.tag-input-groups {
+  margin-top: 10px;
+}
+
 .schema-tags h5 {
   text-align: center;
 }

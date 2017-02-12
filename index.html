@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Load</button>
+                    <button type="button" class="btn btn-default">Load</button>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Upload</button>
+                    <button type="button" class="btn btn-default">Upload</button>
                 </div>
             </div>
         </div>
@@ -150,14 +150,27 @@
                                 <div class="form-group">
                                     <div class="tags-form">
                                         <h5>Modify</h5>
-                                        <input type="text" class="form-control" placeholder="Element..." aria-describedby="element-text" id="tag-element">
-                                        <input type="text" class="form-control" placeholder="Attribute..." aria-describedby="attribute-text" id="tag-attribute">
-                                        <input type="text" class="form-control" placeholder="Value..." aria-describedby="value-text" id="tag-value">
+                                        <input type="text" class="form-control" placeholder="Element..." id="tag-element">
+                                        <div class="input-group tag-input-groups">
+                                          <input type="text" class="form-control" placeholder="Attribute..." id="tag-attribute">
+                                          <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove" id="remove-attribute"></span></button>
+                                          </span>
+                                        </div>
+                                        <div class="add-field">
+                                            <span class="glyphicon glyphicon-plus" id="add-value"></span>
+                                        </div>
+                                        <div class="input-group tag-input-groups">
+                                          <input type="text" class="form-control" placeholder="Value..." id="tag-value">
+                                          <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-remove" id="remove-value"></span></button>
+                                          </span>
+                                        </div>
+                                        <div class="add-field">
+                                            <span class="glyphicon glyphicon-plus" id="add-value"></span>
+                                        </div>
                                     </div>
 
-                                    <!-- <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">New</button>
-                        </div> -->
                                 </div>
                             </form>
 
@@ -166,7 +179,10 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">New</button>
+                        <button type="button" class="btn btn-default pull-left">New</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-default">Cancel</button>
+                        <button type="button" class="btn btn-default">Save</button>
                     </div>
 
 
@@ -209,7 +225,7 @@
                     <div class="overview-pane">
 
                         <div class="input-group search-bar">
-                            <input type="text" class="form-control" placeholder="Search for...">
+                            <input type="text" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
                           <button class="btn btn-default" type="button">
                             <span class="glyphicon glyphicon-search"></span>
