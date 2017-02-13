@@ -11,11 +11,18 @@
 
     <!-- STYLING -->
     <link href="Libs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Libs/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="Libs/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet"/>
+    <link href="Libs/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
+    <link href="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet"/>
     <link href="CSS/custom.css" rel="stylesheet" title="custom" />
 
     <!-- SCRIPTS -->
     <script src="Libs/jquery-3.1.1.js"></script>
     <script src="Libs/bootstrap/js/bootstrap.js"></script>
+    <script src="Libs/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.js"></script>
+    <script src="Libs/jquery-contextMenu/dist/jquery.ui.position.min.js"></script>
     <script src="Libs/wordfreq/src/wordfreq.js"></script>
     <script src="Libs/wordcloud2/src/wordcloud2.js"></script>
     <script src="JS/custom.js"></script>
@@ -138,10 +145,6 @@
                                 <button type="button" class="list-group-item">Tag 5</button>
                             </div>
 
-                            <!-- <div class="modal-footer">
-                          <button type="button" class="btn btn-primary">New</button>
-                      </div> -->
-
                         </div>
 
                         <div class="col-md-8">
@@ -225,6 +228,28 @@
         </div>
     </div>
 
+    <!-- ASSIGN MODAL -->
+
+    <div class="modal fade" id="assign-tag-modal" tabindex="-1" role="dialog" aria-labelledby="assign-tag-modal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="export-modal-label">Export File</h4>
+                </div>
+                <div class="modal-body">
+
+                    <h5>Select a file to download.</h5>
+                    <div class="list-group export-links">
+                        <a href="#" class="list-group-item">Document metadata<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                        <a href="#" class="list-group-item">Visualisation extract<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                        <a href="#" class="list-group-item">System schema<span class="glyphicon glyphicon-circle-arrow-down"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MAIN INTERFACE -->
     <section>
         <div class="container-fluid fill custom-main-interface">
@@ -244,9 +269,9 @@
                             </span>
                         </div>
 
-                        <div class="overview-content">
+                        <div class="overview-content" oncontextmenu="return false;">
 
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac auctor dolor, non imperdiet sem. Aenean vel ligula semper, aliquam nisi id, semper lectus. Nullam ac sapien vitae ante facilisis mattis. Sed nec vehicula
+                            <p><span class="right-click-menu">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac auctor dolor, non imperdiet sem. Aenean vel ligula semper, aliquam nisi id, semper lectus. Nullam ac sapien vitae ante facilisis mattis. Sed nec vehicula
                                 augue. Quisque in lacus quis eros consectetur auctor. Suspendisse tincidunt in urna eget dictum. Vivamus accumsan mauris ut augue consectetur semper.</p>
 
                             <p>Nam varius tempor libero, quis consectetur tortor pharetra quis. Integer cursus placerat lectus a faucibus. Curabitur imperdiet aliquet convallis. Maecenas tincidunt a diam in porta. Pellentesque euismod iaculis sagittis. Aliquam
