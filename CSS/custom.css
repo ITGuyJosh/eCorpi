@@ -41,6 +41,18 @@ section {
   text-align: center;
 }
 
+.tag-values {
+  padding: 0;
+}
+
+.tag-values, .col-md-2 {
+  padding-top: 5px;
+}
+
+.tag-values, .col-md-10 {
+  padding: 0;
+}
+
 .export-links span {
   float: right;
   margin-top: 1.4px;
