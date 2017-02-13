@@ -58,6 +58,21 @@ section {
   margin-top: 1.4px;
 }
 
+.available-tags-input-groups {
+  margin-bottom: 10px;
+  width: 100%
+}
+
+.available-tags-input-groups button {
+  width: 100%;
+  text-align: left;
+}
+
+.available-tags-input-groups .caret {
+  float: right;
+  margin-top: 8px;
+}
+
 /* Main Interface */
 .overview-pane {
   width: 100%;
