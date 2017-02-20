@@ -1,0 +1,26 @@
+network
+https://moodle.chester.ac.uk/course/view.php?id=775
+adv programming
+https://moodle.chester.ac.uk/course/view.php?id=776
+systems analysis
+https://moodle.chester.ac.uk/course/view.php?id=774
+tech learning
+https://moodle.chester.ac.uk/course/view.php?id=773
+dissertation
+https://moodle.chester.ac.uk/course/view.php?id=771
+databases
+https://moodle.chester.ac.uk/course/view.php?id=768
+computer organisation
+https://moodle.chester.ac.uk/course/view.php?id=767
+intellegent technologies
+https://moodle.chester.ac.uk/course/view.php?id=777
+managing web env
+https://moodle.chester.ac.uk/course/view.php?id=778
+games programming
+https://moodle.chester.ac.uk/course/view.php?id=52
+
+additional material (change module IDs)
+http://ibis.studentwebserver.co.uk/materials/co6002/Index.html
+
+compsci ejournels
+https://portal.chester.ac.uk/sites/eLibrary/CO/pages/home.aspx

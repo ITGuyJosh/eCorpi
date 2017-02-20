@@ -28,12 +28,9 @@ $(function() {
                 }}
             }
         });
-
-        // $('.context-menu-one').on('click', function(e){
-        //     var selection = $('option:selected',this).text();
-        //     if selection == "assign-tags" {
-        //         console.log('clicked');
-        //     }
-        //
-        // })
     });
+
+  // SUCCESSFUL UPLOAD
+  function uploadSuccess(){
+        return alert("Success!");
+  }

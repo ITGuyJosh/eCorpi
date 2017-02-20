@@ -100,9 +100,13 @@
                 </div>
                 <div class="modal-body">
 
+
+            <form action="ServerFiles/file-manager.php" method="post" enctype="multipart/form-data">
+
+
                     <div class="form-group upload-form">
                         <label class="btn btn-primary" for="file-selector">
-              <input id="file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());">
+              <input name="file-selector" id="file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());">
               Select file...
           </label>
                         <span class='label label-info' id="upload-file-info"></span>
@@ -117,8 +121,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default">Upload</button>
+                    <input type="submit" class="btn btn-default" name="submit" value="Upload" onclick="return uploadSuccess();"/>
                 </div>
+
+                </form>
             </div>
         </div>
     </div>
