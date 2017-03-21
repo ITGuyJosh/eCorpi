@@ -75,7 +75,15 @@ $(function() {
                 "assign-tags": {
                   name: "Assign Tags",
                   callback: function(key, options) {
-                    $("#assign-tag-modal").modal()
+                    var sel = getSelectionText();
+                    //triggered when modal is about to be shown
+                    $('#assign-tag-modal').on('show.bs.modal', function(e) {
+                        //populate the textbox
+                        $(e.currentTarget).find('input[name="selection"]').val(sel);
+                    });
+
+
+                    $("#assign-tag-modal").modal();
                   }
                 },
                 "analyse": {

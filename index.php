@@ -16,7 +16,7 @@
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet"/>
-    <link href="Libs/jquery.highlighttext/jquery.highlighttextarea.min.css" rel="stylesheet"/>
+    <!-- <link href="Libs/jquery.highlighttext/jquery.highlighttextarea.min.css" rel="stylesheet"/> -->
     <link href="CSS/custom.css" rel="stylesheet" title="custom" />
 
     <!-- SCRIPTS -->
@@ -27,7 +27,7 @@
     <script src="Libs/jquery-contextMenu/dist/jquery.ui.position.min.js"></script>
     <script src="Libs/wordfreq/src/wordfreq.js"></script>
     <script src="Libs/wordcloud2/src/wordcloud2.js"></script>
-    <script src="Libs/jquery.highlighttextarea/jquery.highlighttextarea.min.js"></script>
+    <!-- <script src="Libs/jquery.highlighttextarea/jquery.highlighttextarea.min.js"></script> -->
     <script src="Libs/jquery.selection/src/jquery.selection.js"></script>
     <script src="JS/custom.js"></script>
 </head>

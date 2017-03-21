@@ -149,6 +149,14 @@ section {
   margin-right: 0;
 }*/
 
+#selected-word {  
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: #fff;
+}
+
 pre {
   background-color: transparent;
   border: 0;

@@ -38,7 +38,7 @@ if(isset($_POST["submit"])) {
 
           $dom = new DOMDocument;
 
-          $data = $dom->createElement('document');
+          $data = $dom->createElement('LiteraryWork');
 
           $dom->appendChild($data);
 
