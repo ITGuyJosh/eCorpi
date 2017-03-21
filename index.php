@@ -29,6 +29,7 @@
     <script src="Libs/wordcloud2/src/wordcloud2.js"></script>
     <!-- <script src="Libs/jquery.highlighttextarea/jquery.highlighttextarea.min.js"></script> -->
     <script src="Libs/jquery.selection/src/jquery.selection.js"></script>
+    <script src="Libs/jquery.form/src/jquery.form.js"></script>
     <script src="JS/custom.js"></script>
 </head>
 
@@ -70,7 +71,9 @@
     <section>
         <div class="container-fluid fill custom-main-interface">
 
-          <span id="message-popup"></span>
+          <!-- <span id="message-popup"></span> -->
+          <div id="positive-alert" class="alert alert-success" role="alert"></div>
+          <div id="negative-alert" class="alert alert-danger" role="alert"></div>
 
             <div class="row fill">
 

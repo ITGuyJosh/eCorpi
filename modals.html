@@ -50,9 +50,9 @@
                         <span class='label label-info' id="upload-file-info"></span>
                         <div class="upload-form-meta">
                             <h5>Optional Meta Data</h5>
-                            <input type="text" class="form-control" placeholder="Author..." aria-describedby="author-text" id="file-meta-author">
-                            <input type="text" class="form-control" placeholder="Title..." aria-describedby="title-text" id="file-meta-title">
-                            <input type="text" class="form-control" placeholder="Genre..." aria-describedby="genre-text" id="file-meta-genre">
+                            <input type="text" class="form-control" placeholder="Author..." aria-describedby="author-text" name="file-meta-author">
+                            <input type="text" class="form-control" placeholder="Title..." aria-describedby="title-text" name="file-meta-title">
+                            <input type="text" class="form-control" placeholder="Genre..." aria-describedby="genre-text" name="file-meta-genre">
                         </div>
                     </div>
             </div>
@@ -269,6 +269,32 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+ //http://stackoverflow.com/questions/1960240/jquery-ajax-submit-form
+    $("#upload-form").ajaxForm({
+      url: 'ServerFiles/upload.php',
+      type: 'post',
+      success: function() {
+        $("#upload-modal").delay(1000).fadeOut('slow');
+         setTimeout(function() {
+             $("#upload-modal").modal('hide');
+         }, 1500);
+
+          setTimeout(function() {
+              $("#positive-alert").html("<strong>Upload Successful!</strong>");
+              $("#positive-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                $("#positive-alert").fadeOut("slow");
+              }, 2000);
+              });
+          }, 2000);
+      this.reset();
+      }
+    });
+    $("#assign-tag-modal").ajaxSubmit({url: 'ServerFiles/xml.php', type: 'get'})
+</script>
 
 
 <script>

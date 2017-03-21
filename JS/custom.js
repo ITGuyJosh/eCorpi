@@ -1,18 +1,42 @@
-
 //ON DOC READY
 $(document).ready(function() {
-          $(".modals").load("modals.html");
-          //$(".overview-content").load("./UserFiles/Files/Chretien.txt");
+    $(".modals").load("modals.html");
+    $("#positive-alert").hide();
+    $("#negative-alert").hide();    
+    // $('#upload-file').on('submit', function(e) {
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   console.log("hello");
+    // });
 
-        //   $("#file-load").click(function() {
-        //     $.ajax({
-        //         url : "./UserFiles/Files/Chretien.txt",
-        //         dataType: "text",
-        //         success : function (data) {
-        //             $(".overview-content").html(data);
-        //         }
-        //     });
-        // });
+    $('#upload-form').ajaxForm({
+    	url: '../ServerFiles/upload.php',
+      type: 'post'
+    });
+    //
+    // $("#upload-file").click(function(e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     textFunc();
+    // });
+
+    // $("#upload-file").click(function(e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     uploadFile();
+    // });
+
+    //$(".overview-content").load("./UserFiles/Files/Chretien.txt");
+
+    //   $("#file-load").click(function() {
+    //     $.ajax({
+    //         url : "./UserFiles/Files/Chretien.txt",
+    //         dataType: "text",
+    //         success : function (data) {
+    //             $(".overview-content").html(data);
+    //         }
+    //     });
+    // });
 
 
     //     // Wrap strong tag / 強調タグで囲む
@@ -54,95 +78,130 @@ $(document).ready(function() {
 
 });
 
-
+// Upload
+function testFunc(){
+  console.log("test");
+}
 
 // RIGHT CLICK MENU
 $(function() {
-        $.contextMenu({
-            selector: '.right-click-menu',
-            callback: function(key, options) {
+    $.contextMenu({
+        selector: '.right-click-menu',
+        callback: function(key, options) {
 
-              var sel = getSelectionText();
-              var m = "Clicked on " + key + " on element " + sel;
-              //var m = "Clicked on " + key + " on element " + options.$trigger.val().substring(1,4);
+            var sel = getSelectionText();
+            var m = "Clicked on " + key + " on element " + sel;
+            //var m = "Clicked on " + key + " on element " + options.$trigger.val().substring(1,4);
 
-                // alert($('#textarea').selection());
-                // $('#textarea').focus();
+            // alert($('#textarea').selection());
+            // $('#textarea').focus();
 
-                window.console && console.log(m) || alert(m);
-            },
-            items: {
-                "assign-tags": {
-                  name: "Assign Tags",
-                  callback: function(key, options) {
+            window.console && console.log(m) || alert(m);
+        },
+        items: {
+            "assign-tags": {
+                name: "Assign Tags",
+                callback: function(key, options) {
                     var sel = getSelectionText();
+                    var tags = getAvailableTags();
                     //triggered when modal is about to be shown
                     $('#assign-tag-modal').on('show.bs.modal', function(e) {
                         //populate the textbox
-                        $(e.currentTarget).find('input[name="selection"]').val(sel);
+                        $(e.currentTarget).find('input[name="selection"]').val(tags);
                     });
 
 
                     $("#assign-tag-modal").modal();
-                  }
-                },
-                "analyse": {
-                "name": "Analyse",
-                "items": {
-                    "analyse-key1": {"name": "Word Context"},
-                    "analyse-key2": {"name": "Word Frequency"},
-                    "analyse-key3": {"name": "Tag Frequency"}
                 }
             },
-                "sep1": "---------",
-                "close": {name: "Close", icon: function(){
-                    return 'context-menu-icon context-menu-icon-quit';
-                }}
-            }
-        });
-    });
-
-function getSelectionText() {
-        if (window.getSelection) {
-            try {
-                var ta = $('.textarea-content').get(0);
-                return ta.value.substring(ta.selectionStart, ta.selectionEnd);
-            } catch (e) {
-                console.log('Cant get selection text')
-            }
-        }
-        // For IE
-        if (document.selection && document.selection.type != "Control") {
-            return document.selection.createRange().text;
-        }
-    }
-
-/*
-$('#upload-file').on('click', function() {
-
-  //var form = document.getElementById('upload-form');
-  //var fileSelect = document.getElementById('file-selector');
-  //var uploadButton = document.getElementById('upload-file');
-
-    var file_data = $('#file-selector').prop('files')[0];
-    var form_data = new FormData();
-    form_data.append('file', file_data);
-    alert(form_data);
-    $.ajax({
-                url: 'upload2.php', // point to server-side PHP script
-                dataType: 'text',  // what to expect back from the PHP script, if anything
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                type: 'post',
-                success: function(php_script_response){
-                    alert(php_script_response); // display response from the PHP script, if any
+            "analyse": {
+                "name": "Analyse",
+                "items": {
+                    "analyse-key1": {
+                        "name": "Word Context"
+                    },
+                    "analyse-key2": {
+                        "name": "Word Frequency"
+                    },
+                    "analyse-key3": {
+                        "name": "Tag Frequency"
+                    }
                 }
-     });
+            },
+            "sep1": "---------",
+            "close": {
+                name: "Close",
+                icon: function() {
+                    return 'context-menu-icon context-menu-icon-quit';
+                }
+            }
+        }
+    });
 });
 
+function getSelectionText() {
+    if (window.getSelection) {
+        try {
+            var ta = $('.textarea-content').get(0);
+            return ta.value.substring(ta.selectionStart, ta.selectionEnd);
+        } catch (e) {
+            console.log('Cant get selection text')
+        }
+    }
+    // For IE
+    if (document.selection && document.selection.type != "Control") {
+        return document.selection.createRange().text;
+    }
+}
 
+
+
+function getAvailableTags() {
+    $.ajax({
+        type: "POST",
+        url: 'ServerFiles/xml.php',
+        datatype: "json",
+        success: function(data) {
+            //alert(data);
+            return data;
+        }
+    });
+}
+
+// function uploadDocument() {
+//   $.ajax({
+//     type: "POST",
+//     url: 'ServerFiles/upload.php',
+//     data: form_data,
+//     success: function(data) {
+//       //alert(data);
+//       console.log(data);
+//     }
+//   });
+// }
+
+function uploadFile(){
+  var form_data = new FormData(document.querySelector('form'));
+  alert(form_data);
+  $.ajax({
+      url: 'upload.php', // point to server-side PHP script
+      dataType: 'text', // what to expect back from the PHP script, if anything
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      type: 'post',
+      success: function(php_script_response) {
+          alert(php_script_response); // display response from the PHP script, if any
+      }
+  });
+}
+
+// $('#upload-file').on('click', function() {
+//
+// });
+
+/*
 $(document).ready(function() {
 var form = document.getElementById('upload-form');
 var fileSelect = document.getElementById('file-selector');

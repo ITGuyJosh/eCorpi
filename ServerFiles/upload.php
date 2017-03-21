@@ -3,6 +3,10 @@ $target_dir = "../UserFiles/Files/";
 $target_file = $target_dir . basename($_FILES["file-selector"]["name"]);
 $uploadOk = 1;
 $fileType = pathinfo($target_file,PATHINFO_EXTENSION);
+$metaAuthor = $_POST["file-meta-author"];
+$metaTitle = $_POST["file-meta-title"];
+$metaType = $_POST["file-meta-genre"];
+
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
 
@@ -32,8 +36,6 @@ if(isset($_POST["submit"])) {
     } else {
         if (move_uploaded_file($_FILES["file-selector"]["tmp_name"], $target_file)) {
 
-          // $str=file_get_contents($target_file);
-          // $utf8=html_entity_decode($str);
           $fileArray = file($target_file);
 
           $dom = new DOMDocument;
@@ -42,58 +44,27 @@ if(isset($_POST["submit"])) {
 
           $dom->appendChild($data);
 
-
-
-          // $iso8859=utf8_decode($utf8);
-          // $manufacturers = file($iso8859);
+          $data->setAttributeNode(new DOMAttr('Author', $metaAuthor));
+          $data->setAttributeNode(new DOMAttr('Title', $metaTitle));
+          $data->setAttributeNode(new DOMAttr('Type', $metaType));
 
           error_reporting(0);
 
           foreach($fileArray as $line) {
-             $lineElement = $dom->createElement('l');
-             //echo 'IGNORE   : ', iconv("UTF-8", "ISO-8859-1//IGNORE", $text), PHP_EOL;
-             //$utfdata = iconv("UTF-8", "ISO-8859-1//",$manufacturer)
              $text = $dom->createTextNode(ConvertToUTF8($line));
-
-             $data->appendChild($lineElement);
-
-             //$str = explode($text);
-
-
-            //  for ($i=0; $i < ; $i++) {
-            //    # code...
-            //  }
-
-            //  foreach ($text as $word) {
-            //     $wordElement = $dom->createElement('w');
-            //     $data->appendChild($wordElement);
-            //     $wordElement->appendChild($word);
-            //  }
-
-             $lineElement->appendChild($text);
-
+             $data->appendChild($text);
           }
 
           $xmlfile = basename($_FILES["file-selector"]["name"], ".txt") . ".xml";
 
           file_put_contents("../UserFiles/Files/" . $xmlfile, $dom->saveXML());
+          unlink($target_file);
 
-
-          header("Location: ../index.php");
-
-          // echo "<script>
-          //   $(document).ready(function(){
-          //   $('#upload-complete-modal').modal('show');
-          //
-          //   });
-          //   </script>";
-
-            // setTimeout(function(){
-            //   $('#upload-complete-modal').hide();
-            // }, 3000);
-          die();
 
           error_reporting(-1);
+
+          return "File Uploaded Successfully";
+          die();
 
         } else {
             echo "Sorry, there was an error uploading your file.</br>";
