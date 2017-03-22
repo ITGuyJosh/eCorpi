@@ -1,87 +1,38 @@
 //ON DOC READY
 $(document).ready(function() {
-    $(".modals").load("modals.html");
+
+    // notifications
     $("#positive-alert").hide();
-    $("#negative-alert").hide();    
-    // $('#upload-file').on('submit', function(e) {
-    //   e.preventDefault();
-    //   e.stopPropagation();
-    //   console.log("hello");
-    // });
+    $("#negative-alert").hide();
 
-    $('#upload-form').ajaxForm({
-    	url: '../ServerFiles/upload.php',
-      type: 'post'
+    // modal ui
+    $('#assign-tag-modal').on('hidden.bs.modal', function () {
+      var attrdropdown = document.getElementById("attribute-selection-dropdown");
+      attrdropdown.setAttribute("disabled", "");
     });
-    //
-    // $("#upload-file").click(function(e) {
-    //     e.preventDefault();
-    //     e.stopPropagation();
-    //     textFunc();
-    // });
 
-    // $("#upload-file").click(function(e) {
-    //     e.preventDefault();
-    //     e.stopPropagation();
-    //     uploadFile();
-    // });
+    // upload AJAX
+    $("#upload-form").ajaxForm({
+      url: 'ServerFiles/upload.php',
+      type: 'post',
+      success: function() {
+        $("#upload-modal").delay(1000).fadeOut('slow');
+         setTimeout(function() {
+             $("#upload-modal").modal('hide');
+         }, 1500);
 
-    //$(".overview-content").load("./UserFiles/Files/Chretien.txt");
-
-    //   $("#file-load").click(function() {
-    //     $.ajax({
-    //         url : "./UserFiles/Files/Chretien.txt",
-    //         dataType: "text",
-    //         success : function (data) {
-    //             $(".overview-content").html(data);
-    //         }
-    //     });
-    // });
-
-
-    //     // Wrap strong tag / 強調タグで囲む
-    // $('#wrap-strong').click(function(){
-    //   $('#textarea')
-    //     // insert before string '<strong>'
-    //     // <strong> を選択テキストの前に挿入
-    //     .selection('insert', {text: '<strong>', mode: 'before'})
-    //     // insert after string '</strong>'
-    //     // </strong> を選択テキストの後に挿入
-    //     .selection('insert', {text: '</strong>', mode: 'after'});
-    // });
-    //
-    // // Wrap link tag / リンクタグで囲む
-    // $('#wrap-link').click(function(){
-    //   // Get selected text / 選択テキストを取得
-    //   var selText = $('#textarea').selection();
-    //
-    //   $('#textarea')
-    //     // insert before string '<a href="'
-    //     // <a href=" を選択テキストの前に挿入
-    //     .selection('insert', {text: '<a href="', mode: 'before'})
-    //     // replace selected text by string 'http://'
-    //     // 選択テキストを http:// に置き換える（http:// を選択状態に）
-    //     .selection('replace', {text: 'http://'})
-    //     // insert after string '">SELECTED TEXT</a>'
-    //     // ">選択テキスト</a> を選択テキストの後に挿入
-    //     .selection('insert', {text: '">'+ selText + '</a>', mode: 'after'});
-    // });
-    //
-    // // Get selected text / 選択テキストを取得
-    // $('#sel-textarea').click(function(){
-    //   // alert selected text
-    //   // テキストエリアの選択範囲をアラートする
-    //   alert($('#textarea').selection());
-    //   $('#textarea').focus();
-    // });
-
-
+          setTimeout(function() {
+              $("#positive-alert").html("<strong>Upload Successful!</strong>");
+              $("#positive-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                $("#positive-alert").fadeOut("slow");
+              }, 2000);
+              });
+          }, 2000);
+      this.reset();
+      }
+    });
 });
-
-// Upload
-function testFunc(){
-  console.log("test");
-}
 
 // RIGHT CLICK MENU
 $(function() {
@@ -91,11 +42,6 @@ $(function() {
 
             var sel = getSelectionText();
             var m = "Clicked on " + key + " on element " + sel;
-            //var m = "Clicked on " + key + " on element " + options.$trigger.val().substring(1,4);
-
-            // alert($('#textarea').selection());
-            // $('#textarea').focus();
-
             window.console && console.log(m) || alert(m);
         },
         items: {
@@ -107,10 +53,8 @@ $(function() {
                     //triggered when modal is about to be shown
                     $('#assign-tag-modal').on('show.bs.modal', function(e) {
                         //populate the textbox
-                        $(e.currentTarget).find('input[name="selection"]').val(tags);
+                        $(e.currentTarget).find('input[name="selection"]').val(sel);
                     });
-
-
                     $("#assign-tag-modal").modal();
                 }
             },
@@ -139,6 +83,8 @@ $(function() {
     });
 });
 
+// SUPPORT FUNCTIONS
+// overview text selection
 function getSelectionText() {
     if (window.getSelection) {
         try {
@@ -155,18 +101,82 @@ function getSelectionText() {
 }
 
 
-
 function getAvailableTags() {
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: 'ServerFiles/xml.php',
         datatype: "json",
-        success: function(data) {
-            //alert(data);
-            return data;
+        success: tagRenderer,
+        fail: function(data){
+          console.log("fail");
+          console.log(data);
         }
     });
 }
+
+function tagRenderer(ev) {
+  var data = JSON.parse(ev);
+  var taglist = document.getElementById("tag-elements");
+  taglist.innerHTML = "";
+  var attrlist = document.getElementById("tag-attributes");
+  var attrdropdown = document.getElementById("attribute-selection-dropdown");
+  var keys = Object.keys(data);
+  keys.forEach(function(el, i, arr){
+    var tag = document.createElement("button");
+    tag.setAttribute("type", "button");
+    tag.classList.add("list-group-item");
+    tag.textContent = el;
+    tag.addEventListener("click", function(e){
+      attrlist.innerHTML = "";
+      attrdropdown.removeAttribute("disabled");
+      data[keys[i]].forEach(function(el, i, arr){
+        var listitem = document.createElement("li");
+        var listitemlink = document.createElement("a");
+        //listitem.setAttribute("id");
+
+        listitemlink.setAttribute("href", "#");
+        listitemlink.textContent = el;
+        listitem.appendChild(listitemlink);
+        attrlist.appendChild(listitem);
+      });
+    });
+    taglist.appendChild(tag);
+  });
+}
+
+
+
+
+
+//  MESS
+
+
+// function uploadFile(){
+//   var form_data = new FormData(document.querySelector('form'));
+//   alert(form_data);
+//   $.ajax({
+//       url: 'upload.php', // point to server-side PHP script
+//       dataType: 'text', // what to expect back from the PHP script, if anything
+//       cache: false,
+//       contentType: false,
+//       processData: false,
+//       data: form_data,
+//       type: 'post',
+//       success: function(php_script_response) {
+//           alert(php_script_response); // display response from the PHP script, if any
+//       }
+//   });
+// }
+// function getFiles() {
+//     $.ajax({
+//         type: "GET",
+//         url: 'ServerFiles/getfiles.php',
+//         datatype: "json",
+//         success: function(data) {
+//             return data;
+//         }
+//     });
+// }
 
 // function uploadDocument() {
 //   $.ajax({
@@ -180,22 +190,86 @@ function getAvailableTags() {
 //   });
 // }
 
-function uploadFile(){
-  var form_data = new FormData(document.querySelector('form'));
-  alert(form_data);
-  $.ajax({
-      url: 'upload.php', // point to server-side PHP script
-      dataType: 'text', // what to expect back from the PHP script, if anything
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: form_data,
-      type: 'post',
-      success: function(php_script_response) {
-          alert(php_script_response); // display response from the PHP script, if any
-      }
-  });
-}
+//$(".modals").load("modals.php");
+    // $("#load-modal-button").on("click", function(){
+    //   list = getFiles();
+    //   // for(var k in list) {
+    //   //    console.log(k, list[k]);
+    //   // }
+    //   console.log(list);
+    // });
+// $('#upload-file').on('submit', function(e) {
+//   e.preventDefault();
+//   e.stopPropagation();
+//   console.log("hello");
+// });
+
+// $('#upload-form').ajaxForm({
+// 	url: '../ServerFiles/upload.php',
+//   type: 'post'
+// });
+//
+// $("#upload-file").click(function(e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     textFunc();
+// });
+
+// $("#upload-file").click(function(e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     uploadFile();
+// });
+
+//$(".overview-content").load("./UserFiles/Files/Chretien.txt");
+
+//   $("#file-load").click(function() {
+//     $.ajax({
+//         url : "./UserFiles/Files/Chretien.txt",
+//         dataType: "text",
+//         success : function (data) {
+//             $(".overview-content").html(data);
+//         }
+//     });
+// });
+
+
+//     // Wrap strong tag / 強調タグで囲む
+// $('#wrap-strong').click(function(){
+//   $('#textarea')
+//     // insert before string '<strong>'
+//     // <strong> を選択テキストの前に挿入
+//     .selection('insert', {text: '<strong>', mode: 'before'})
+//     // insert after string '</strong>'
+//     // </strong> を選択テキストの後に挿入
+//     .selection('insert', {text: '</strong>', mode: 'after'});
+// });
+//
+// // Wrap link tag / リンクタグで囲む
+// $('#wrap-link').click(function(){
+//   // Get selected text / 選択テキストを取得
+//   var selText = $('#textarea').selection();
+//
+//   $('#textarea')
+//     // insert before string '<a href="'
+//     // <a href=" を選択テキストの前に挿入
+//     .selection('insert', {text: '<a href="', mode: 'before'})
+//     // replace selected text by string 'http://'
+//     // 選択テキストを http:// に置き換える（http:// を選択状態に）
+//     .selection('replace', {text: 'http://'})
+//     // insert after string '">SELECTED TEXT</a>'
+//     // ">選択テキスト</a> を選択テキストの後に挿入
+//     .selection('insert', {text: '">'+ selText + '</a>', mode: 'after'});
+// });
+//
+// // Get selected text / 選択テキストを取得
+// $('#sel-textarea').click(function(){
+//   // alert selected text
+//   // テキストエリアの選択範囲をアラートする
+//   alert($('#textarea').selection());
+//   $('#textarea').focus();
+// });
+
 
 // $('#upload-file').on('click', function() {
 //

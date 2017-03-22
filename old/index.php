@@ -371,6 +371,44 @@
                         <?php // echo nl2br( htmlspecialchars( file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml'))); ?>
                         <?php //include('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.txt'); ?>
 
+
+                            <!--<p><span class="right-click-menu">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac auctor dolor, non imperdiet sem. Aenean vel ligula semper, aliquam nisi id, semper lectus. Nullam ac sapien vitae ante facilisis mattis. Sed nec vehicula
+                                augue. Quisque in lacus quis eros consectetur auctor. Suspendisse tincidunt in urna eget dictum. Vivamus accumsan mauris ut augue consectetur semper.</p>
+
+                            <p>Nam varius tempor libero, quis consectetur tortor pharetra quis. Integer cursus placerat lectus a faucibus. Curabitur imperdiet aliquet convallis. Maecenas tincidunt a diam in porta. Pellentesque euismod iaculis sagittis. Aliquam
+                                finibus vel mauris at elementum. Donec eleifend mattis orci, vitae convallis libero cursus et.</p>
+
+                            <p>Aenean aliquam eget eros et scelerisque. Etiam in semper justo. Ut interdum mi sit amet velit tincidunt, sed congue justo aliquet. Aenean eu ipsum id ex lobortis accumsan in nec leo. Donec at enim elementum, pharetra nunc sit
+                                amet, tincidunt turpis. Integer accumsan diam nec cursus posuere. Nam eget tempor ligula. Phasellus pulvinar in est ac scelerisque.</p>
+
+                            <p>Aenean nec maximus leo. Sed semper leo turpis, et scelerisque enim sollicitudin at. Vestibulum imperdiet ut neque vel dignissim. Duis molestie luctus justo, ultrices dapibus dolor pretium laoreet. Aliquam vitae magna tellus.
+                                Donec laoreet ipsum lacus, a vulputate eros egestas eget. Ut at diam eget sem ultrices facilisis. Duis ultricies quam at lectus dapibus, ac rhoncus turpis finibus. Donec sit amet sodales nulla.</p>
+
+                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed at sem suscipit, eleifend tortor sed, dignissim risus. Morbi at porta nisi. Cum sociis natoque penatibus et magnis dis parturient
+                                montes, nascetur ridiculus mus. Curabitur vitae nulla ornare, volutpat lacus non, aliquam lacus. Vestibulum sit amet blandit odio. Vivamus tristique urna feugiat, dapibus purus a, rutrum nisi. In a scelerisque lacus. Nam
+                                eu dapibus odio. Nunc sit amet interdum est. Proin lobortis, leo imperdiet mollis auctor, augue arcu consequat arcu, sed elementum enim nunc vel mauris. Quisque nibh risus, semper id malesuada id, convallis id nulla. Duis
+                                elementum est in leo tempus, eu ullamcorper odio scelerisque. Quisque euismod magna erat, in rutrum enim lobortis ut.</p>
+
+                            <p>Cras mattis porta lacus nec convallis. Duis ut ante sit amet urna sodales ultricies. Ut sagittis sit amet nunc non sollicitudin. Nam ac quam ac ipsum efficitur ultrices. Quisque sed placerat tellus. Mauris ut enim orci. Etiam
+                                ultrices, tortor nec hendrerit lacinia, metus erat iaculis justo, viverra pretium eros odio et arcu. Aenean congue aliquam nunc, scelerisque egestas lacus mollis non. Nunc ut sapien est. Ut bibendum tempor odio eget venenatis.
+                                Maecenas vitae nisl magna. Proin dictum mauris sed nunc molestie sollicitudin. Aliquam pharetra dapibus est quis facilisis. Nullam ut vulputate eros.</p>
+
+                            <p>Duis at nunc scelerisque, lobortis est a, vulputate orci. Duis aliquam ultricies tempor. Donec id massa rutrum, rhoncus mauris vel, ultrices tortor. Fusce id dui elit. Mauris ut enim pharetra, dignissim odio eu, luctus metus.
+                                Aliquam fringilla volutpat turpis eget accumsan. Fusce a mattis odio, ac tempus risus. Sed suscipit lectus neque, ut rutrum libero varius sed. Duis vitae auctor dolor, sed elementum dui.</p>
+
+                            <p>Praesent eu nibh nec nisi porttitor posuere at nec ex. Etiam justo enim, malesuada nec accumsan id, aliquam non arcu. Donec placerat tincidunt lorem. Ut semper dignissim odio, ac varius augue sollicitudin sit amet. Nam accumsan
+                                augue ut eros feugiat, id rutrum quam placerat. Cras at dolor fringilla, ullamcorper dolor eu, pharetra nibh. Mauris maximus purus eget tincidunt fermentum. Nam bibendum quam lorem, at iaculis tellus viverra vitae. Vivamus
+                                euismod libero et lectus imperdiet venenatis sed eget nulla.</p>
+
+                            <p>Morbi at rhoncus ligula. Integer eget dapibus dolor. Duis eget orci nec leo sagittis fermentum quis id purus. Aenean vel libero at enim hendrerit euismod. Aenean ornare ex velit, sit amet ultrices felis fringilla egestas. In
+                                hac habitasse platea dictumst. Nam maximus, mauris accumsan rutrum sollicitudin, magna massa lobortis augue, a efficitur nulla metus ac nisl.</p>
+
+                            <p>Donec porttitor est et aliquam imperdiet. In pharetra non risus non mollis. Aliquam efficitur euismod volutpat. Sed ullamcorper nisi eros, non laoreet sem dignissim ac. Maecenas tincidunt consectetur tellus non volutpat. Quisque
+                                ullamcorper auctor ligula, quis maximus risus consectetur a. Sed tempor laoreet pharetra. In dignissim ligula vitae rutrum cursus. Donec sagittis, tortor non congue eleifend, lectus quam interdum tortor, eu fringilla purus
+                                nisi sit amet eros. Suspendisse condimentum, ex non commodo semper, odio metus lobortis sem, nec ultrices nibh elit nec quam. Cras mattis auctor risus. Praesent tempus sem convallis nibh suscipit, sed varius dolor convallis.
+                                Aliquam venenatis lorem vitae ipsum imperdiet suscipit. Mauris at condimentum massa. Phasellus eget metus volutpat, sollicitudin est quis, fermentum arcu. Curabitur consequat arcu dolor.</p>
+ -->
+
                         </div>
 
                     </div>

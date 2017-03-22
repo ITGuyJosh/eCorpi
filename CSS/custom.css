@@ -169,6 +169,7 @@ pre {
   width: 98%;
   padding: 1%;
   text-align: center;
+  display: none;
 }
 
 /* Media Queries  */
