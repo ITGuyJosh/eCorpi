@@ -11,7 +11,40 @@ $(document).ready(function() {
       attrdropdown.setAttribute("disabled", "");
     });
 
-    // upload AJAX
+    // load doc handlers
+    $("#load-modal-button").on("click", function(){
+      getAvailableFiles();
+    });
+    $("#file-load").on("click", function(){
+      var file = $("#selected-file").html();
+      if(file == ""){
+        $("#negative-alert").html("<strong>Please select a document!</strong>");
+        $("#negative-alert").fadeIn("slow", function() {
+          setTimeout(function() {
+          $("#negative-alert").fadeOut("slow");
+        }, 2000);
+        });
+      } else {
+          loadFile(file);
+          $("#load-modal").delay(1000).fadeOut('slow');
+           setTimeout(function() {
+               $("#load-modal").modal('hide');
+           }, 1500);
+
+            setTimeout(function() {
+                $("#positive-alert").html("<strong>Load Successful!</strong>");
+                $("#positive-alert").fadeIn("slow", function() {
+                  setTimeout(function() {
+                  $("#positive-alert").fadeOut("slow");
+                }, 2000);
+                });
+            }, 2000);
+        this.reset();
+      }
+
+    });
+
+    // upload server AJAX
     $("#upload-form").ajaxForm({
       url: 'ServerFiles/upload.php',
       type: 'post',
@@ -32,7 +65,9 @@ $(document).ready(function() {
       this.reset();
       }
     });
+
 });
+
 
 // RIGHT CLICK MENU
 $(function() {
@@ -49,7 +84,7 @@ $(function() {
                 name: "Assign Tags",
                 callback: function(key, options) {
                     var sel = getSelectionText();
-                    var tags = getAvailableTags();
+                    getAvailableTags();
                     //triggered when modal is about to be shown
                     $('#assign-tag-modal').on('show.bs.modal', function(e) {
                         //populate the textbox
@@ -83,6 +118,8 @@ $(function() {
     });
 });
 
+
+
 // SUPPORT FUNCTIONS
 // overview text selection
 function getSelectionText() {
@@ -100,6 +137,32 @@ function getSelectionText() {
     }
 }
 
+function loadFile(file){
+  var fileurl = "UserFiles/Files/" + file;
+  $.ajax({
+      type: "GET",
+      url: fileurl,
+      datatype: "string",
+      success: fileLoader,
+      fail: function(data){
+        console.log("fail");
+        console.log(data);
+      }
+  });
+}
+
+function getAvailableFiles(){
+  $.ajax({
+      type: "GET",
+      url: 'ServerFiles/getfiles.php',
+      datatype: "json",
+      success: fileRenderer,
+      fail: function(data){
+        console.log("fail");
+        console.log(data);
+      }
+  });
+}
 
 function getAvailableTags() {
     $.ajax({
@@ -114,6 +177,47 @@ function getAvailableTags() {
     });
 }
 
+function fileLoader(file){
+  var data = file;
+  var textarea = document.getElementById("document-textarea");
+
+  // var xml = $.parseXML(data),
+  // $xml = $( xml ),
+  // $test = $xml.find('test');
+  // console.log($test.text());
+
+  var xmlstr = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
+
+  textarea.innerHTML = xmlstr;
+  console.log(data);
+
+
+
+}
+
+function fileRenderer(ev){
+  var data = JSON.parse(ev);
+  var filelist = document.getElementById("available-files-list");
+  var sellist = document.getElementById("selected-file");
+  filelist.innerHTML = "";
+  sellist.innerHTML = "";
+  data.forEach(function(lst, i, arr){
+    //console.log(lst);
+    var listitem = document.createElement("li");
+    var listitemlink = document.createElement("a");
+    //listitem.setAttribute("id");
+    listitemlink.setAttribute("href", "#");
+    listitemlink.textContent = lst;
+    listitem.appendChild(listitemlink);
+    listitem.addEventListener("click", function(){
+      sellist.innerHTML = lst;
+      //console.log(lst);
+    });
+    filelist.appendChild(listitem);
+  });
+
+}
+
 function tagRenderer(ev) {
   var data = JSON.parse(ev);
   var taglist = document.getElementById("tag-elements");
@@ -121,6 +225,7 @@ function tagRenderer(ev) {
   var attrlist = document.getElementById("tag-attributes");
   var attrdropdown = document.getElementById("attribute-selection-dropdown");
   var keys = Object.keys(data);
+
   keys.forEach(function(el, i, arr){
     var tag = document.createElement("button");
     tag.setAttribute("type", "button");

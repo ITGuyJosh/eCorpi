@@ -64,7 +64,6 @@
 
 
     <!-- MODALS -->
-    <!-- <div class="modals"></div> -->
     <!-- LOAD MODAL -->
     <div class="modal fade" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="load-modal-label">
         <div class="modal-dialog modal-sm" role="document">
@@ -73,6 +72,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="load-modal-label">Load Document</h4>
                 </div>
+              <!-- <form method="post" enctype="multipart/form-data" id="load-form" action="ServerFiles/load.php"> -->
                 <div class="modal-body">
 
                     <div class="dropdown">
@@ -80,16 +80,21 @@
               Select document...
               <span class="caret"></span>
             </button>
-                        <ul class="dropdown-menu" aria-labelledby="load-dropdown">
-                            <li><a href="#">Doc 1</a></li>
-                            <li><a href="#">Doc 2</a></li>
-                            <li><a href="#">Doc 3</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="load-dropdown" id="available-files-list">
                         </ul>
                     </div>
+                    <!-- <div class="input-group selected-file-style">
+                      <input type="text" class="form-control" id="selected-file" readonly name="selected-file" placeholder="Document...">
+                    </div> -->
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="file-load">Load</button>
+                  <span class="selected-file-style" id="selected-file"></span>
+                  <!-- <input type="submit" class="btn btn-default" id="load-file" name="submit" value="Load" /> -->
+                  <button type="button" class="btn btn-default" id="file-load">Load</button>
                 </div>
+
+              <!-- </form> -->
             </div>
         </div>
     </div>
@@ -257,11 +262,6 @@
                             <h5>Available Tags</h5>
                             <div class="list-group" id="tag-elements">
 
-                                <!-- <button type="button" class="list-group-item">Tag 1</button>
-                                <button type="button" class="list-group-item">Tag 2</button>
-                                <button type="button" class="list-group-item">Tag 3</button>
-                                <button type="button" class="list-group-item">Tag 4</button>
-                                <button type="button" class="list-group-item">Tag 5</button> -->
                             </div>
 
                         </div>
@@ -279,9 +279,6 @@
                                   <span class="caret"></span>
                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="attribute-selection-dropdown" id="tag-attributes">
-                                                    <!-- <li><a href="#">Attribute 1</a></li>
-                                                    <li><a href="#">Attribute 2</a></li>
-                                                    <li><a href="#">Attribute 3</a></li> -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -364,9 +361,10 @@
 
                         <!-- <div class="overview-content" oncontextmenu="return false;"> -->
                         <div class="overview-content" oncontextmenu="return false;">
+                        <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></textarea>
 
                         <?php  //$xmlDoc = new DOMDocument();$xmlDoc->load('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml');?>
-                        <?PHP  echo '<textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</textarea>'; ?>
+                        <?PHP //  echo '<textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</textarea>'; ?>
                         <?PHP //echo '<pre>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</pre>'; ?>
                         <?php // echo nl2br( htmlspecialchars( file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml'))); ?>
                         <?php //include('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.txt'); ?>

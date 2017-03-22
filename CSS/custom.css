@@ -91,7 +91,9 @@ section {
 .textarea-content {
   width: 100%;
   height: 100%;
-  font-size: 1.2em;
+  font-size: 1.3em;
+  padding: 8px;
+  color: #333;
   resize: none;
   border: none;
   outline: none;
@@ -165,11 +167,15 @@ pre {
 
 .alert {
 	position:absolute;
-  z-index:2;
+  z-index:2000 !important;
   width: 98%;
   padding: 1%;
   text-align: center;
   display: none;
+}
+
+.selected-file-style {
+  float: left;
 }
 
 /* Media Queries  */
