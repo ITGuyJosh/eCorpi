@@ -6,73 +6,92 @@ $(document).ready(function() {
     $("#negative-alert").hide();
 
     // modal ui
-    $('#assign-tag-modal').on('hidden.bs.modal', function () {
-      var attrdropdown = document.getElementById("attribute-selection-dropdown");
-      attrdropdown.setAttribute("disabled", "");
+    $('#assign-tag-modal').on('hidden.bs.modal', function() {
+        var attrdropdown = document.getElementById("attribute-selection-dropdown");
+        attrdropdown.setAttribute("disabled", "");
+    });
+
+    // search
+    $("#search-bar").keyup(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            $("#search-bar-button").click();
+        }
+    });
+    $("#search-bar-button").on("click", function() {
+        var searchitem = $("#search-bar").val();
+        var textarea = $("#formatted-content").val();
+        if (searchitem != "") {
+            var options = {
+                "className": "mark",              
+            };
+
+            $("#formatted-content").mark(searchitem, options);
+        }
     });
 
     // load doc handlers
-    $("#load-modal-button").on("click", function(){
-      getAvailableFiles();
+    $("#load-modal-button").on("click", function() {
+        getAvailableFiles();
     });
-    $("#file-load").on("click", function(){
-      var file = $("#selected-file").html();
-      if(file == ""){
-        $("#negative-alert").html("<strong>Please select a document!</strong>");
-        $("#negative-alert").fadeIn("slow", function() {
-          setTimeout(function() {
-          $("#negative-alert").fadeOut("slow");
-        }, 2000);
-        });
-      } else {
-          loadFile(file);
-          $("#load-modal").delay(1000).fadeOut('slow');
-           setTimeout(function() {
-               $("#load-modal").modal('hide');
-           }, 1500);
+    $("#file-load").on("click", function() {
+        var file = $("#selected-file").html();
+        if (file == "") {
+            $("#negative-alert").html("<strong>Please select a document!</strong>");
+            $("#negative-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                    $("#negative-alert").fadeOut("slow");
+                }, 2000);
+            });
+        } else {
+            loadFile(file);
+            $("#load-modal").delay(1000).fadeOut('slow');
+            setTimeout(function() {
+                $("#load-modal").modal('hide');
+            }, 1500);
 
             setTimeout(function() {
                 $("#positive-alert").html("<strong>Load Successful!</strong>");
                 $("#positive-alert").fadeIn("slow", function() {
-                  setTimeout(function() {
-                  $("#positive-alert").fadeOut("slow");
-                }, 2000);
+                    setTimeout(function() {
+                        $("#positive-alert").fadeOut("slow");
+                    }, 2000);
                 });
             }, 2000);
-        //this.reset();
-      }
+            //this.reset();
+        }
 
     });
 
     // upload server AJAX
     $("#upload-form").ajaxForm({
-      url: 'ServerFiles/upload.php',
-      type: 'post',
-      success: function() {
-        $("#upload-modal").delay(1000).fadeOut('slow');
-         setTimeout(function() {
-             $("#upload-modal").modal('hide');
-         }, 1500);
+        url: 'ServerFiles/upload.php',
+        type: 'post',
+        success: function() {
+            $("#upload-modal").delay(1000).fadeOut('slow');
+            setTimeout(function() {
+                $("#upload-modal").modal('hide');
+            }, 1500);
 
-          setTimeout(function() {
-              $("#positive-alert").html("<strong>Upload Successful!</strong>");
-              $("#positive-alert").fadeIn("slow", function() {
-                setTimeout(function() {
-                $("#positive-alert").fadeOut("slow");
-              }, 2000);
-              });
-          }, 2000);
-      this.reset();
-      }
+            setTimeout(function() {
+                $("#positive-alert").html("<strong>Upload Successful!</strong>");
+                $("#positive-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#positive-alert").fadeOut("slow");
+                    }, 2000);
+                });
+            }, 2000);
+            this.reset();
+        }
     });
 
     // upload server AJAX
     $("#assign-tag-form").ajaxForm({
-      url: 'ServerFiles/assign.php',
-      type: 'post',
-      success: function() {
-        console.log("it works");
-      }
+        url: 'ServerFiles/assign.php',
+        type: 'post',
+        success: function() {
+            console.log("it works");
+        }
     });
 
 });
@@ -135,6 +154,7 @@ function getSelectionText() {
     if (window.getSelection) {
         try {
             var ta = $('.textarea-content').get(0);
+            var ta = $('#formatted-content').get(0);
             return ta.value.substring(ta.selectionStart, ta.selectionEnd);
         } catch (e) {
             console.log('Cant get selection text')
@@ -146,20 +166,19 @@ function getSelectionText() {
     }
 }
 
-function loadFile(file){
-  //var fileurl = "UserFiles/Files/" + file;
-  $.ajax({
-      type: "GET",
-      ///jkahsdjkashd
-      url: "ServerFiles/parse.php",
-      datatype: "string",
-      data: file,
-      success: fileLoader,
-      fail: function(data){
-        console.log("fail");
-        console.log(data);
-      }
-  });
+function loadFile(file) {
+    //var fileurl = "UserFiles/Files/" + file;
+    $.ajax({
+        type: "GET",
+        url: "ServerFiles/parse.php",
+        datatype: "string",
+        data: file,
+        success: fileLoader,
+        fail: function(data) {
+            console.log("fail");
+            console.log(data);
+        }
+    });
 }
 
 // function loadFile(file){
@@ -176,17 +195,17 @@ function loadFile(file){
 //   });
 // }
 
-function getAvailableFiles(){
-  $.ajax({
-      type: "GET",
-      url: 'ServerFiles/getfiles.php',
-      datatype: "json",
-      success: fileRenderer,
-      fail: function(data){
-        console.log("fail");
-        console.log(data);
-      }
-  });
+function getAvailableFiles() {
+    $.ajax({
+        type: "GET",
+        url: 'ServerFiles/getfiles.php',
+        datatype: "json",
+        success: fileRenderer,
+        fail: function(data) {
+            console.log("fail");
+            console.log(data);
+        }
+    });
 }
 
 function getAvailableTags() {
@@ -195,117 +214,117 @@ function getAvailableTags() {
         url: 'ServerFiles/xml.php',
         datatype: "json",
         success: tagRenderer,
-        fail: function(data){
-          console.log("fail");
-          console.log(data);
+        fail: function(data) {
+            console.log("fail");
+            console.log(data);
         }
     });
 }
 
-function fileLoader(file){
-  var data = file;
-  var textarea = document.getElementById("document-textarea");
-  console.log("working");
-  console.log(data);
-  // var xml = $.parseXML(data),
-  // $xml = $( xml ),
-  // $test = $xml.find('test');
-  // console.log($test.text());
+function fileLoader(file) {
+    var data = file;
+    var textarea = document.getElementById("document-textarea");
+    console.log("working");
+    console.log(data);
+    // var xml = $.parseXML(data),
+    // $xml = $( xml ),
+    // $test = $xml.find('test');
+    // console.log($test.text());
 
-  //var str = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
+    //var str = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
 
-  //str = str.replace(/\<\?xml.+\?\>|\<\!DOCTYPE.+]\>/g, '');
+    //str = str.replace(/\<\?xml.+\?\>|\<\!DOCTYPE.+]\>/g, '');
 
-  // String.prototype.replaceAll = function (find, replace) {
-  //   var str = this;
-  //   return str.replace(new RegExp(find.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '\\$&'), 'g'), replace);
-  // };
+    // String.prototype.replaceAll = function (find, replace) {
+    //   var str = this;
+    //   return str.replace(new RegExp(find.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '\\$&'), 'g'), replace);
+    // };
 
-  //var newstr = str.replaceAll(str, '');
+    //var newstr = str.replaceAll(str, '');
 
-  //var delimiters = "/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g";
+    //var delimiters = "/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g";
 
-  //str = str.split(delimiters).join("");
+    //str = str.split(delimiters).join("");
 
-  // function escapeRegExp(str) {
-  //   return str.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, "\\$1");
-  // }
-  //
-  // function replaceAll(str, find, replace) {
-  //   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-  // }
-  //xmlstr.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '');
-  //xmlstr.
-  textarea.innerHTML = data;
-  //console.log(newstr);
+    // function escapeRegExp(str) {
+    //   return str.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, "\\$1");
+    // }
+    //
+    // function replaceAll(str, find, replace) {
+    //   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    // }
+    //xmlstr.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '');
+    //xmlstr.
+    textarea.innerHTML = '<pre id="formatted-content">' + data + "</pre>";
+    //console.log(newstr);
 
 
 
 
 }
 
-function fileRenderer(ev){
-  var data = JSON.parse(ev);
-  var filelist = document.getElementById("available-files-list");
-  var sellist = document.getElementById("selected-file");
-  filelist.innerHTML = "";
-  sellist.innerHTML = "";
-  data.forEach(function(lst, i, arr){
-    //console.log(lst);
-    var listitem = document.createElement("li");
-    var listitemlink = document.createElement("a");
-    //listitem.setAttribute("id");
-    listitemlink.setAttribute("href", "#");
-    listitemlink.textContent = lst;
-    listitem.appendChild(listitemlink);
-    listitem.addEventListener("click", function(){
-      sellist.innerHTML = lst;
-      //console.log(lst);
+function fileRenderer(ev) {
+    var data = JSON.parse(ev);
+    var filelist = document.getElementById("available-files-list");
+    var sellist = document.getElementById("selected-file");
+    filelist.innerHTML = "";
+    sellist.innerHTML = "";
+    data.forEach(function(lst, i, arr) {
+        //console.log(lst);
+        var listitem = document.createElement("li");
+        var listitemlink = document.createElement("a");
+        //listitem.setAttribute("id");
+        listitemlink.setAttribute("href", "#");
+        listitemlink.textContent = lst;
+        listitem.appendChild(listitemlink);
+        listitem.addEventListener("click", function() {
+            sellist.innerHTML = lst;
+            //console.log(lst);
+        });
+        filelist.appendChild(listitem);
     });
-    filelist.appendChild(listitem);
-  });
 
 }
 
 function tagRenderer(ev) {
-  var data = JSON.parse(ev);
-  var taglist = document.getElementById("tag-elements");
-  taglist.innerHTML = "";
-  var attrlist = document.getElementById("tag-attributes");
-  var attrdropdown = document.getElementById("attribute-selection-dropdown");
-  var keys = Object.keys(data);
+    var data = JSON.parse(ev);
+    var taglist = document.getElementById("tag-elements");
+    taglist.innerHTML = "";
+    var attrlist = document.getElementById("tag-attributes");
+    var attrdropdown = document.getElementById("attribute-selection-dropdown");
+    var keys = Object.keys(data);
 
-  keys.forEach(function(el, i, arr){
-    var tag = document.createElement("button");
-    tag.setAttribute("type", "button");
-    tag.classList.add("list-group-item");
-    tag.textContent = el;
-    tag.addEventListener("click", function(e){
-      attrlist.innerHTML = "";
-      attrdropdown.removeAttribute("disabled");
-      data[keys[i]].forEach(function(el, i, arr){
-        var listitem = document.createElement("li");
-        var listitemlink = document.createElement("a");
-        listitem.setAttribute("id", i);
-        listitemlink.setAttribute("href", "#");
-        listitemlink.textContent = el;
-        var listitemtitle = listitemlink.textContent;
-        listitem.appendChild(listitemlink);
-        attrlist.appendChild(listitem);
+    keys.forEach(function(el, i, arr) {
+        var tag = document.createElement("button");
+        tag.setAttribute("type", "button");
+        tag.classList.add("list-group-item");
+        tag.textContent = el;
+        tag.addEventListener("click", function(e) {
+            attrlist.innerHTML = "";
+            attrdropdown.removeAttribute("disabled");
+            data[keys[i]].forEach(function(el, i, arr) {
+                var listitem = document.createElement("li");
+                var listitemlink = document.createElement("a");
+                listitem.setAttribute("id", i);
+                listitemlink.setAttribute("href", "#");
+                listitemlink.textContent = el;
+                var listitemtitle = listitemlink.textContent;
+                listitem.appendChild(listitemlink);
+                attrlist.appendChild(listitem);
 
 
-        listitem.addEventListener("click", function(){
-          var attrsel = document.getElementById("selected-attr");
-          attrsel.innerHTML = listitemtitle;
-          console.log(listitemtitle);
-          //console.log(attrsel);
-          //console.log(arr);
+                listitem.addEventListener("click", function() {
+                    var attrsel = document.getElementById("selected-attr");
+                    attrsel.innerHTML = listitemtitle;
+                    console.log(listitemtitle);
+                    //console.log(attrsel);
+                    //console.log(arr);
+                });
+
+            });
         });
-
-      });
+        taglist.appendChild(tag);
     });
-    taglist.appendChild(tag);
-  });
 }
 
 
@@ -355,13 +374,13 @@ function tagRenderer(ev) {
 // }
 
 //$(".modals").load("modals.php");
-    // $("#load-modal-button").on("click", function(){
-    //   list = getFiles();
-    //   // for(var k in list) {
-    //   //    console.log(k, list[k]);
-    //   // }
-    //   console.log(list);
-    // });
+// $("#load-modal-button").on("click", function(){
+//   list = getFiles();
+//   // for(var k in list) {
+//   //    console.log(k, list[k]);
+//   // }
+//   console.log(list);
+// });
 // $('#upload-file').on('submit', function(e) {
 //   e.preventDefault();
 //   e.stopPropagation();

@@ -16,7 +16,7 @@
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet"/>
-    <link href="Libs/jquery.highlighttext/jquery.highlighttextarea.min.css" rel="stylesheet"/>
+    <!-- <link href="Libs/mark.js/jquery.highlight-within-textarea.css" rel="stylesheet"/> -->
     <link href="CSS/custom.css" rel="stylesheet" title="custom" />
 
     <!-- SCRIPTS -->
@@ -27,7 +27,7 @@
     <script src="Libs/jquery-contextMenu/dist/jquery.ui.position.min.js"></script>
     <script src="Libs/wordfreq/src/wordfreq.js"></script>
     <script src="Libs/wordcloud2/src/wordcloud2.js"></script>
-    <script src="Libs/jquery.highlighttext/jquery.highlighttextarea.min.js"></script>
+    <script src="Libs/mark.js/dist/jquery.mark.min.js"></script>
     <script src="Libs/jquery.selection/src/jquery.selection.js"></script>
     <script src="Libs/jquery.form/src/jquery.form.js"></script>
     <script src="JS/custom.js"></script>
@@ -332,24 +332,6 @@
         </div>
     </div>
 
-    <!-- UPLOAD COMPLETE MODAL -->
-
-    <!-- <div class="modal fade" id="upload-complete-modal" tabindex="-1" role="dialog" aria-labelledby="upload-complete-modal-label">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
-                    <!-- <h4 class="modal-title" id="upload-complete-modal-label">Export File</h4> -->
-                <!-- </div>
-                <div class="modal-body">
-
-                    <h2>Upload Successful</h2>
-
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <!-- MAIN INTERFACE -->
     <section>
         <div class="container-fluid fill custom-main-interface">
@@ -364,9 +346,9 @@
                     <div class="overview-pane">
 
                         <div class="input-group search-bar">
-                            <input type="text" class="form-control" placeholder="Search..." id="">
+                            <input type="text" class="form-control" placeholder="Search..." id="search-bar">
                             <span class="input-group-btn">
-                          <button class="btn btn-default" type="button">
+                          <button class="btn btn-default" type="button" id="search-bar-button">
                             <span class="glyphicon glyphicon-search"></span>
                             </button>
                             </span>
@@ -374,8 +356,9 @@
 
                         <!-- <div class="overview-content" oncontextmenu="return false;"> -->
                         <div class="overview-content" oncontextmenu="return false;">
-                        <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></textarea>
-
+                        <!-- <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></textarea> -->
+                        <div class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></div>
+                        <!-- <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea2">This is the test textarea.</textarea> -->
                         <?php  //$xmlDoc = new DOMDocument();$xmlDoc->load('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml');?>
                         <?PHP //  echo '<textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</textarea>'; ?>
                         <?PHP //echo '<pre>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</pre>'; ?>

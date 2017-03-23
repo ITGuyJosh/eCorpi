@@ -196,6 +196,10 @@ pre {
   float: left;
 }
 
+.mark {
+  background: yellow;
+}
+
 /* Media Queries  */
 @media (max-width: 979px) {
   body {
