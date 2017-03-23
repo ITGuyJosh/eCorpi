@@ -39,7 +39,7 @@ $(document).ready(function() {
                 }, 2000);
                 });
             }, 2000);
-        this.reset();
+        //this.reset();
       }
 
     });
@@ -63,6 +63,15 @@ $(document).ready(function() {
               });
           }, 2000);
       this.reset();
+      }
+    });
+
+    // upload server AJAX
+    $("#assign-tag-form").ajaxForm({
+      url: 'ServerFiles/assign.php',
+      type: 'post',
+      success: function() {
+        console.log("it works");
       }
     });
 
@@ -138,11 +147,13 @@ function getSelectionText() {
 }
 
 function loadFile(file){
-  var fileurl = "UserFiles/Files/" + file;
+  //var fileurl = "UserFiles/Files/" + file;
   $.ajax({
       type: "GET",
-      url: fileurl,
+      ///jkahsdjkashd
+      url: "ServerFiles/parse.php",
       datatype: "string",
+      data: file,
       success: fileLoader,
       fail: function(data){
         console.log("fail");
@@ -150,6 +161,20 @@ function loadFile(file){
       }
   });
 }
+
+// function loadFile(file){
+//   var fileurl = "UserFiles/Files/" + file;
+//   $.ajax({
+//       type: "GET",
+//       url: fileurl,
+//       datatype: "string",
+//       success: fileLoader,
+//       fail: function(data){
+//         console.log("fail");
+//         console.log(data);
+//       }
+//   });
+// }
 
 function getAvailableFiles(){
   $.ajax({
@@ -180,16 +205,40 @@ function getAvailableTags() {
 function fileLoader(file){
   var data = file;
   var textarea = document.getElementById("document-textarea");
-
+  console.log("working");
+  console.log(data);
   // var xml = $.parseXML(data),
   // $xml = $( xml ),
   // $test = $xml.find('test');
   // console.log($test.text());
 
-  var xmlstr = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
+  //var str = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
 
-  textarea.innerHTML = xmlstr;
-  console.log(data);
+  //str = str.replace(/\<\?xml.+\?\>|\<\!DOCTYPE.+]\>/g, '');
+
+  // String.prototype.replaceAll = function (find, replace) {
+  //   var str = this;
+  //   return str.replace(new RegExp(find.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '\\$&'), 'g'), replace);
+  // };
+
+  //var newstr = str.replaceAll(str, '');
+
+  //var delimiters = "/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g";
+
+  //str = str.split(delimiters).join("");
+
+  // function escapeRegExp(str) {
+  //   return str.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, "\\$1");
+  // }
+  //
+  // function replaceAll(str, find, replace) {
+  //   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+  // }
+  //xmlstr.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '');
+  //xmlstr.
+  textarea.innerHTML = data;
+  //console.log(newstr);
+
 
 
 
@@ -237,12 +286,22 @@ function tagRenderer(ev) {
       data[keys[i]].forEach(function(el, i, arr){
         var listitem = document.createElement("li");
         var listitemlink = document.createElement("a");
-        //listitem.setAttribute("id");
-
+        listitem.setAttribute("id", i);
         listitemlink.setAttribute("href", "#");
         listitemlink.textContent = el;
+        var listitemtitle = listitemlink.textContent;
         listitem.appendChild(listitemlink);
         attrlist.appendChild(listitem);
+
+
+        listitem.addEventListener("click", function(){
+          var attrsel = document.getElementById("selected-attr");
+          attrsel.innerHTML = listitemtitle;
+          console.log(listitemtitle);
+          //console.log(attrsel);
+          //console.log(arr);
+        });
+
       });
     });
     taglist.appendChild(tag);

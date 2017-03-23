@@ -16,7 +16,7 @@
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet"/>
-    <!-- <link href="Libs/jquery.highlighttext/jquery.highlighttextarea.min.css" rel="stylesheet"/> -->
+    <link href="Libs/jquery.highlighttext/jquery.highlighttextarea.min.css" rel="stylesheet"/>
     <link href="CSS/custom.css" rel="stylesheet" title="custom" />
 
     <!-- SCRIPTS -->
@@ -27,7 +27,7 @@
     <script src="Libs/jquery-contextMenu/dist/jquery.ui.position.min.js"></script>
     <script src="Libs/wordfreq/src/wordfreq.js"></script>
     <script src="Libs/wordcloud2/src/wordcloud2.js"></script>
-    <!-- <script src="Libs/jquery.highlighttextarea/jquery.highlighttextarea.min.js"></script> -->
+    <script src="Libs/jquery.highlighttext/jquery.highlighttextarea.min.js"></script>
     <script src="Libs/jquery.selection/src/jquery.selection.js"></script>
     <script src="Libs/jquery.form/src/jquery.form.js"></script>
     <script src="JS/custom.js"></script>
@@ -251,6 +251,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="upload-modal-label">Tag Assignment</h4>
                 </div>
+                <!-- <form method="post" enctype="multipart/form-data" id="assign-tags-form" action="ServerFiles/assign.php"> -->
                 <div class="modal-body">
 
                   <div class="input-group">
@@ -275,15 +276,21 @@
                                         <div class="input-group available-tags-input-groups">
                                             <div class="dropdown assign-tag-dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button" id="attribute-selection-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" disabled>
-                                  Attribute...
+                                  Select attribute...
                                   <span class="caret"></span>
                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="attribute-selection-dropdown" id="tag-attributes">
                                                 </ul>
                                             </div>
+
+                                            <div class="input-group selected-attr">
+                                              <span class="input-group-addon">Attribute</span>
+                                              <input type="text" class="form-control" id="selected-attr" readonly name="attribute">
+                                            </div>
+
                                         </div>
-                                        <div class="input-group available-tags-input-groups">
-                                            <div class="dropdown assign-tag-dropdown">
+                                        <!-- <div class="input-group available-tags-input-groups"> -->
+                                            <!-- <div class="dropdown assign-tag-dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button" id="value-selection-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                   Value...
                                   <span class="caret"></span>
@@ -293,13 +300,19 @@
                                                     <li><a href="#">Value 2</a></li>
                                                     <li><a href="#">Value 3</a></li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
+                                        <!-- </div> -->
+
+                                        <div class="input-group selected-attr">
+                                          <span class="input-group-addon selected-val-addon">Value</span>
+                                          <input type="text" class="form-control" id="new-value" placeholder="Enter value..." name="value">
                                         </div>
-                                        <input type="text" class="form-control" placeholder="New value..." aria-describedby="author-text" id="new-value">
+
+                                        <!-- <input type="text" class="form-control" placeholder="Enter value..." id="new-value"> -->
                                     </div>
 
                                 </div>
-                            </form>
+
 
                         </div>
 
@@ -307,9 +320,11 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default">Assign</button>
-                        <button type="button" class="btn btn-default">Assign All</button>
+                        <!-- <input type="submit" class="btn btn-default" id="assign-tags" name="submit" value="Assign" /> -->
+                        <!-- <button type="button" class="btn btn-default">Assign All</button> -->
                     </div>
 
+                    <!-- </form> -->
 
                 </div>
 
@@ -319,13 +334,13 @@
 
     <!-- UPLOAD COMPLETE MODAL -->
 
-    <div class="modal fade" id="upload-complete-modal" tabindex="-1" role="dialog" aria-labelledby="upload-complete-modal-label">
+    <!-- <div class="modal fade" id="upload-complete-modal" tabindex="-1" role="dialog" aria-labelledby="upload-complete-modal-label">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
                     <!-- <h4 class="modal-title" id="upload-complete-modal-label">Export File</h4> -->
-                </div>
+                <!-- </div>
                 <div class="modal-body">
 
                     <h2>Upload Successful</h2>
@@ -333,15 +348,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- MAIN INTERFACE -->
     <section>
         <div class="container-fluid fill custom-main-interface">
 
-          <!-- <span id="message-popup"></span> -->
-          <div id="positive-alert" class="alert alert-success" role="alert"></div>
-          <div id="negative-alert" class="alert alert-danger" role="alert"></div>
+
 
             <div class="row fill">
 
@@ -351,7 +364,7 @@
                     <div class="overview-pane">
 
                         <div class="input-group search-bar">
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <input type="text" class="form-control" placeholder="Search..." id="">
                             <span class="input-group-btn">
                           <button class="btn btn-default" type="button">
                             <span class="glyphicon glyphicon-search"></span>
@@ -399,6 +412,12 @@
 
                     </div>
                 </div>
+                <div id="positive-alert" class="alert alert-success" role="alert"></div>
+                <div id="negative-alert" class="alert alert-danger" role="alert"></div>
+            </div>
+            <div class="row">
+              <!-- notifications -->
+
             </div>
         </div>
     </section>

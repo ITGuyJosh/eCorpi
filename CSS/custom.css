@@ -83,7 +83,7 @@ section {
 }
 
 .search-bar {
-  //padding-bottom: 10px;
+  //margin-bottom: -20px;
   border: none;
   background: #fff;
 }
@@ -160,13 +160,31 @@ section {
   background-color: #fff;
 }
 
+#selected-attr {
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.selected-attr {
+  margin-top: 20px !important;
+  width: 100%;
+}
+.selected-val-addon {
+  padding-left: 22px !important;
+  padding-right: 22px !important;;
+}
+
 pre {
   background-color: transparent;
   border: 0;
 }
 
 .alert {
-	position:absolute;
+	position: fixed;
+  bottom: 0;
   z-index:2000 !important;
   width: 98%;
   padding: 1%;
