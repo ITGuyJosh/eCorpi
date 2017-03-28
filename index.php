@@ -16,7 +16,8 @@
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.structure.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
     <link href="Libs/jquery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet"/>
-    <!-- <link href="Libs/mark.js/jquery.highlight-within-textarea.css" rel="stylesheet"/> -->
+    <link href="Libs/tooltipster/dist/css/tooltipster.bundle.min.css" rel="stylesheet"/>
+    <link href="Libs/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" rel="stylesheet"/>
     <link href="CSS/custom.css" rel="stylesheet" title="custom" />
 
     <!-- SCRIPTS -->
@@ -30,6 +31,7 @@
     <script src="Libs/mark.js/dist/jquery.mark.min.js"></script>
     <script src="Libs/jquery.selection/src/jquery.selection.js"></script>
     <script src="Libs/jquery.form/src/jquery.form.js"></script>
+    <script src="Libs/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <script src="JS/custom.js"></script>
 </head>
 
@@ -72,7 +74,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="load-modal-label">Load Document</h4>
                 </div>
-              <!-- <form method="post" enctype="multipart/form-data" id="load-form" action="ServerFiles/load.php"> -->
                 <div class="modal-body">
 
                     <div class="dropdown">
@@ -108,8 +109,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="upload-modal-label">Upload Document</h4>
                 </div>
-
-                <!-- <form method="post" enctype="multipart/form-data" id="upload-form"> -->
                 <form method="post" enctype="multipart/form-data" id="upload-form" action="ServerFiles/upload.php">
 
                 <div class="modal-body">
@@ -251,7 +250,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="upload-modal-label">Tag Assignment</h4>
                 </div>
-                <!-- <form method="post" enctype="multipart/form-data" id="assign-tags-form" action="ServerFiles/assign.php"> -->
+                <form method="post" enctype="multipart/form-data" id="assign-tags-form" action="ServerFiles/assign.php">
                 <div class="modal-body">
 
                   <div class="input-group">
@@ -262,13 +261,9 @@
                         <div class="col-md-4 available-tags">
                             <h5>Available Tags</h5>
                             <div class="list-group" id="tag-elements">
-
                             </div>
-
                         </div>
-
                         <div class="col-md-8">
-
                             <form>
                                 <div class="form-group">
                                     <div class="tags-form">
@@ -289,45 +284,20 @@
                                             </div>
 
                                         </div>
-                                        <!-- <div class="input-group available-tags-input-groups"> -->
-                                            <!-- <div class="dropdown assign-tag-dropdown">
-                                                <button class="btn btn-default dropdown-toggle" type="button" id="value-selection-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                  Value...
-                                  <span class="caret"></span>
-                                </button>
-                                                <ul class="dropdown-menu" aria-labelledby="value-selection-dropdown">
-                                                    <li><a href="#">Value 1</a></li>
-                                                    <li><a href="#">Value 2</a></li>
-                                                    <li><a href="#">Value 3</a></li>
-                                                </ul>
-                                            </div> -->
-                                        <!-- </div> -->
 
                                         <div class="input-group selected-attr">
                                           <span class="input-group-addon selected-val-addon">Value</span>
                                           <input type="text" class="form-control" id="new-value" placeholder="Enter value..." name="value">
                                         </div>
-
-                                        <!-- <input type="text" class="form-control" placeholder="Enter value..." id="new-value"> -->
                                     </div>
-
                                 </div>
-
-
                         </div>
-
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default">Assign</button>
-                        <!-- <input type="submit" class="btn btn-default" id="assign-tags" name="submit" value="Assign" /> -->
-                        <!-- <button type="button" class="btn btn-default">Assign All</button> -->
                     </div>
-
-                    <!-- </form> -->
-
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -359,11 +329,6 @@
                         <!-- <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></textarea> -->
                         <div class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea"></div>
                         <!-- <textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly id="document-textarea2">This is the test textarea.</textarea> -->
-                        <?php  //$xmlDoc = new DOMDocument();$xmlDoc->load('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml');?>
-                        <?PHP //  echo '<textarea class="textarea-content right-click-menu" placeholder="Please load in a document for analysis..." readonly>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</textarea>'; ?>
-                        <?PHP //echo '<pre>', strip_tags(file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml')), '</pre>'; ?>
-                        <?php // echo nl2br( htmlspecialchars( file_get_contents('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.xml'))); ?>
-                        <?php //include('/Applications/XAMPP/xamppfiles/htdocs/eCorpi/UserFiles/Files/Chretien 1 Erec.txt'); ?>
 
                         </div>
 

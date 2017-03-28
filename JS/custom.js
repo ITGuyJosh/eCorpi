@@ -13,22 +13,61 @@ $(document).ready(function() {
 
     // search
     $("#search-bar").keyup(function(event) {
-        if (event.keyCode == 13) {
+        if (event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 46) {
             event.preventDefault();
             $("#search-bar-button").click();
         }
     });
+    // $("#search-bar").keyup(function(event){
+    //   if(event.keyCode == 8 || e.keyCode == 8) {
+    //     event.preventDefault();
+    //
+    //   }
+    // });
+
     $("#search-bar-button").on("click", function() {
         var searchitem = $("#search-bar").val();
         var textarea = $("#formatted-content").val();
-        if (searchitem != "") {
+        if (event.keyCode == 8 || event.keyCode == 46) {
+            if (searchitem == "") {
+                $("#formatted-content").unmark(options);
+            }
+        } else if (searchitem != "") {
             var options = {
-                "className": "mark",              
+                "className": "mark",
+                "accuracy": "exactly",
+                "diacritics": true,
+                "caseSensitive": false
             };
-
             $("#formatted-content").mark(searchitem, options);
         }
     });
+
+    // $(mark).tooltip({
+    //   //console.log("hello");
+    // });
+
+    // $('.mark').tooltipster({
+    //   theme: 'tooltipster-sideTip-light',
+    //   content: "test",
+    //   trigger: "mouseenter"
+    // });
+
+    $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
+      var txt = $(this).html();
+      //var count = $("mark").length;
+      var count = getCountOfMarks(txt);
+      var message = "There are " + count + " counts of '" + txt + "'.";
+
+        $(this).tooltipster({
+            theme: 'tooltipster-light',
+            functionBefore: function(instance, helper) {
+                instance.content(message);
+            }
+        });
+        $(this).tooltipster('open');
+    });
+
 
     // load doc handlers
     $("#load-modal-button").on("click", function() {
@@ -86,16 +125,28 @@ $(document).ready(function() {
     });
 
     // upload server AJAX
-    $("#assign-tag-form").ajaxForm({
+    $("#upload-form").ajaxForm({
         url: 'ServerFiles/assign.php',
         type: 'post',
         success: function() {
-            console.log("it works");
+            $("#upload-modal").delay(1000).fadeOut('slow');
+            setTimeout(function() {
+                $("#upload-modal").modal('hide');
+            }, 1500);
+
+            setTimeout(function() {
+                $("#positive-alert").html("<strong>Upload Successful!</strong>");
+                $("#positive-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#positive-alert").fadeOut("slow");
+                    }, 2000);
+                });
+            }, 2000);
+            this.reset();
         }
     });
 
 });
-
 
 // RIGHT CLICK MENU
 $(function() {
@@ -151,20 +202,45 @@ $(function() {
 // SUPPORT FUNCTIONS
 // overview text selection
 function getSelectionText() {
+    var text = "";
     if (window.getSelection) {
-        try {
-            var ta = $('.textarea-content').get(0);
-            var ta = $('#formatted-content').get(0);
-            return ta.value.substring(ta.selectionStart, ta.selectionEnd);
-        } catch (e) {
-            console.log('Cant get selection text')
-        }
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
     }
-    // For IE
-    if (document.selection && document.selection.type != "Control") {
-        return document.selection.createRange().text;
-    }
+    return text;
 }
+
+//Count of given values
+function getCountOfMarks(value){
+  var counter = 0;
+  //var marks = $('mark').length;
+  $( "mark" ).each(function() {
+    if ($(this).text().toUpperCase() === value.toUpperCase()) {
+      counter++;
+    }
+    //console.log( index + ": " + $( this ).text() );
+  });
+
+  return counter;
+}
+
+
+// function getSelectionText() {
+//     if (window.getSelection) {
+//         try {
+//             var ta = $('.textarea-content').get(0);
+//             var ta = $('#formatted-content').get(0);
+//             return ta.value.substring(ta.selectionStart, ta.selectionEnd);
+//         } catch (e) {
+//             console.log('Cant get selection text')
+//         }
+//     }
+//     // For IE
+//     if (document.selection && document.selection.type != "Control") {
+//         return document.selection.createRange().text;
+//     }
+// }
 
 function loadFile(file) {
     //var fileurl = "UserFiles/Files/" + file;
@@ -291,6 +367,7 @@ function tagRenderer(ev) {
     var taglist = document.getElementById("tag-elements");
     taglist.innerHTML = "";
     var attrlist = document.getElementById("tag-attributes");
+    var attrsel = document.getElementById("selected-attr");
     var attrdropdown = document.getElementById("attribute-selection-dropdown");
     var keys = Object.keys(data);
 
@@ -300,6 +377,8 @@ function tagRenderer(ev) {
         tag.classList.add("list-group-item");
         tag.textContent = el;
         tag.addEventListener("click", function(e) {
+            $('#tag-elements *').removeClass('active');
+            tag.classList.add("active");
             attrlist.innerHTML = "";
             attrdropdown.removeAttribute("disabled");
             data[keys[i]].forEach(function(el, i, arr) {
@@ -312,13 +391,10 @@ function tagRenderer(ev) {
                 listitem.appendChild(listitemlink);
                 attrlist.appendChild(listitem);
 
-
                 listitem.addEventListener("click", function() {
-                    var attrsel = document.getElementById("selected-attr");
-                    attrsel.innerHTML = listitemtitle;
-                    console.log(listitemtitle);
-                    //console.log(attrsel);
-                    //console.log(arr);
+
+                    $("#selected-attr").val(listitemtitle);
+                    //console.log(listitemtitle);
                 });
 
             });
