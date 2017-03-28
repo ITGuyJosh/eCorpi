@@ -18,19 +18,13 @@ $(document).ready(function() {
             $("#search-bar-button").click();
         }
     });
-    // $("#search-bar").keyup(function(event){
-    //   if(event.keyCode == 8 || e.keyCode == 8) {
-    //     event.preventDefault();
-    //
-    //   }
-    // });
 
     $("#search-bar-button").on("click", function() {
         var searchitem = $("#search-bar").val();
-        var textarea = $("#formatted-content").val();
+        var textarea = $(".formatted-content").val();
         if (event.keyCode == 8 || event.keyCode == 46) {
             if (searchitem == "") {
-                $("#formatted-content").unmark(options);
+                $(".formatted-content").unmark(options);
             }
         } else if (searchitem != "") {
             var options = {
@@ -39,19 +33,10 @@ $(document).ready(function() {
                 "diacritics": true,
                 "caseSensitive": false
             };
-            $("#formatted-content").mark(searchitem, options);
+            $(".formatted-content").mark(searchitem, options);
         }
     });
 
-    // $(mark).tooltip({
-    //   //console.log("hello");
-    // });
-
-    // $('.mark').tooltipster({
-    //   theme: 'tooltipster-sideTip-light',
-    //   content: "test",
-    //   trigger: "mouseenter"
-    // });
 
     $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
       var txt = $(this).html();
@@ -124,25 +109,34 @@ $(document).ready(function() {
         }
     });
 
-    // upload server AJAX
-    $("#upload-form").ajaxForm({
+    // assign tags
+    $("#assign-tags-form").ajaxForm({
         url: 'ServerFiles/assign.php',
         type: 'post',
+        beforeSubmit: function(formData, formObject, formOptions){
+          var selectedButton = $(".active").html();
+          var selectedFile = $(".formatted-content").attr("id");
+          formData.push(
+            {name: 'element',value: selectedButton},
+            {name: 'filename',value: selectedFile}
+        );
+        },
         success: function() {
-            $("#upload-modal").delay(1000).fadeOut('slow');
+            $("#assign-tag-modal").delay(1000).fadeOut('slow');
             setTimeout(function() {
-                $("#upload-modal").modal('hide');
+                $("#assign-tag-modal").modal('hide');
             }, 1500);
 
             setTimeout(function() {
-                $("#positive-alert").html("<strong>Upload Successful!</strong>");
+                $("#positive-alert").html("<strong>Assign Successful!</strong>");
                 $("#positive-alert").fadeIn("slow", function() {
                     setTimeout(function() {
                         $("#positive-alert").fadeOut("slow");
+                        $("#assign-tags-form").trigger('reset');
                     }, 2000);
                 });
             }, 2000);
-            this.reset();
+
         }
     });
 
@@ -243,7 +237,7 @@ function getCountOfMarks(value){
 // }
 
 function loadFile(file) {
-    //var fileurl = "UserFiles/Files/" + file;
+    var filename = file;
     $.ajax({
         type: "GET",
         url: "ServerFiles/parse.php",
@@ -256,20 +250,6 @@ function loadFile(file) {
         }
     });
 }
-
-// function loadFile(file){
-//   var fileurl = "UserFiles/Files/" + file;
-//   $.ajax({
-//       type: "GET",
-//       url: fileurl,
-//       datatype: "string",
-//       success: fileLoader,
-//       fail: function(data){
-//         console.log("fail");
-//         console.log(data);
-//       }
-//   });
-// }
 
 function getAvailableFiles() {
     $.ajax({
@@ -298,45 +278,11 @@ function getAvailableTags() {
 }
 
 function fileLoader(file) {
-    var data = file;
+    var file = file;
     var textarea = document.getElementById("document-textarea");
-    console.log("working");
-    console.log(data);
-    // var xml = $.parseXML(data),
-    // $xml = $( xml ),
-    // $test = $xml.find('test');
-    // console.log($test.text());
-
-    //var str = data.xml ? data.xml : (new XMLSerializer()).serializeToString(data);
-
-    //str = str.replace(/\<\?xml.+\?\>|\<\!DOCTYPE.+]\>/g, '');
-
-    // String.prototype.replaceAll = function (find, replace) {
-    //   var str = this;
-    //   return str.replace(new RegExp(find.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '\\$&'), 'g'), replace);
-    // };
-
-    //var newstr = str.replaceAll(str, '');
-
-    //var delimiters = "/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g";
-
-    //str = str.split(delimiters).join("");
-
-    // function escapeRegExp(str) {
-    //   return str.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, "\\$1");
-    // }
-    //
-    // function replaceAll(str, find, replace) {
-    //   return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-    // }
-    //xmlstr.replace(/\<(\?xml|(\!DOCTYPE[^\>\[]+(\[[^\]]+)?))+[^>]+\>/g, '');
-    //xmlstr.
-    textarea.innerHTML = '<pre id="formatted-content">' + data + "</pre>";
-    //console.log(newstr);
-
-
-
-
+    var title = this.url.split("php?")[1];
+    var noXMLTitle = title.split(".xml")[0];
+    textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + file + "</pre>";
 }
 
 function fileRenderer(ev) {
@@ -378,6 +324,7 @@ function tagRenderer(ev) {
         tag.textContent = el;
         tag.addEventListener("click", function(e) {
             $('#tag-elements *').removeClass('active');
+            $('#selected-attr').val("");
             tag.classList.add("active");
             attrlist.innerHTML = "";
             attrdropdown.removeAttribute("disabled");
