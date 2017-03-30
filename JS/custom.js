@@ -1,6 +1,8 @@
+// GLOBALS
+var dataset = "";
+
 //ON DOC READY
 $(document).ready(function() {
-
     // notifications
     $("#positive-alert").hide();
     $("#negative-alert").hide();
@@ -36,7 +38,6 @@ $(document).ready(function() {
             $(".formatted-content").mark(searchitem, options);
         }
     });
-
 
     $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
       var txt = $(this).html();
@@ -105,8 +106,9 @@ $(document).ready(function() {
                     }, 2000);
                 });
             }, 2000);
-            this.reset();
-        }
+
+        },
+        clearForm: true
     });
 
     // assign tags
@@ -114,11 +116,21 @@ $(document).ready(function() {
         url: 'ServerFiles/assign.php',
         type: 'post',
         beforeSubmit: function(formData, formObject, formOptions){
-          var selectedButton = $(".active").html();
-          var selectedFile = $(".formatted-content").attr("id");
+          var selFilename = $(".formatted-content").attr("id");
+          var text = dataset;
+          var searchTerm = $("#selected-word").val();
+          var selElement = $(".active").html();
+          var selAttribute = $("#selected-attr").val();
+          var selValue = $("#new-value").val();
+
+          var updatedXML = addTagToXML(text, searchTerm, selElement, selAttribute, selValue);
+
+          dataset = updatedXML;
+
+          console.log(updatedXML);
+
           formData.push(
-            {name: 'element',value: selectedButton},
-            {name: 'filename',value: selectedFile}
+            {name: 'updatedXML',value: updatedXML}
         );
         },
         success: function() {
@@ -141,6 +153,53 @@ $(document).ready(function() {
     });
 
 });
+
+/**
+* @name addTagToXML
+* @description Adds tag to XML
+* @param {string} - text - Text to add tag to
+* @param {string} - searchTerm - Text to replace with tag
+* @param {string} - listelement - Schema Element to enclose tag
+* @param {string} - attribute - Schema Attribute for tag
+* @param {string} - value - User Value for tag
+*/
+function addTagToXML(text, searchTerm, selElement, selAttribute, selValue) {
+  //console.log(text);
+  var textAsArray = text.split(" ");
+  var checkElement = "<" + selElement;
+
+  var interimArray = textAsArray.map(function(el, i, arr) {
+    if(el.indexOf(checkElement) > -1) {
+      return "";
+    } else {
+      return el;
+    }
+  });
+
+  var interimArray2 = interimArray.map(function(el, i, arr) {
+    if(el === searchTerm) {
+      //console.log(typeof(selElement));
+      var element = document.createElement(selElement);
+      var attr1 = element.setAttribute(selAttribute, selValue);
+      element.textContent = el;
+      //console.log(element.outerHTML);
+      return element.outerHTML;
+
+    } else {
+      return el;
+    }
+  });
+
+  var output = interimArray2.map(function(el, i, arr) {
+    if(el == "") {
+      return textAsArray[i];
+    } else {
+      return el;
+    }
+  });
+
+  return output.join(" ");
+};
 
 // RIGHT CLICK MENU
 $(function() {
@@ -237,7 +296,7 @@ function getCountOfMarks(value){
 // }
 
 function loadFile(file) {
-    var filename = file;
+    //var filename = file;
     $.ajax({
         type: "GET",
         url: "ServerFiles/parse.php",
@@ -278,7 +337,8 @@ function getAvailableTags() {
 }
 
 function fileLoader(file) {
-    var file = file;
+    dataset = file;
+    console.log(dataset);
     var textarea = document.getElementById("document-textarea");
     var title = this.url.split("php?")[1];
     var noXMLTitle = title.split(".xml")[0];
