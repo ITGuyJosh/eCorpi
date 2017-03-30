@@ -105,7 +105,6 @@ $(document).ready(function() {
                     }, 2000);
                 });
             }, 2000);
-
         },
         clearForm: true
     });
@@ -115,7 +114,7 @@ $(document).ready(function() {
         url: 'ServerFiles/assign.php',
         type: 'post',
         beforeSubmit: function(formData, formObject, formOptions){
-          var selFilename = $(".formatted-content").attr("id");
+          var filename = $(".formatted-content").attr("id");
           var text = dataset;
           var searchTerm = $("#selected-word").val();
           var selElement = $(".active").html();
@@ -129,7 +128,8 @@ $(document).ready(function() {
           //console.log(updatedXML);
 
           formData.push(
-            {name: 'updatedXML',value: updatedXML}
+            {name: 'updatedXML',value: updatedXML},
+            {name: 'filename',value: filename}
         );
         },
         success: function() {
@@ -275,28 +275,11 @@ function getCountOfMarks(value){
   return counter;
 }
 
-
-// function getSelectionText() {
-//     if (window.getSelection) {
-//         try {
-//             var ta = $('.textarea-content').get(0);
-//             var ta = $('#formatted-content').get(0);
-//             return ta.value.substring(ta.selectionStart, ta.selectionEnd);
-//         } catch (e) {
-//             console.log('Cant get selection text')
-//         }
-//     }
-//     // For IE
-//     if (document.selection && document.selection.type != "Control") {
-//         return document.selection.createRange().text;
-//     }
-// }
-
 function loadFile(file) {
     //var filename = file;
     $.ajax({
         type: "GET",
-        url: "ServerFiles/parse.php",
+        url: "ServerFiles/load.php",
         datatype: "string",
         data: file,
         success: fileLoader,
@@ -336,6 +319,10 @@ function getAvailableTags() {
 function fileLoader(file) {
     dataset = file;
     console.log(dataset);
+    //stripping tags
+    
+
+
     var textarea = document.getElementById("document-textarea");
     var title = this.url.split("php?")[1];
     var noXMLTitle = title.split(".xml")[0];
@@ -415,6 +402,21 @@ function tagRenderer(ev) {
 
 //  MESS
 
+// function getSelectionText() {
+//     if (window.getSelection) {
+//         try {
+//             var ta = $('.textarea-content').get(0);
+//             var ta = $('#formatted-content').get(0);
+//             return ta.value.substring(ta.selectionStart, ta.selectionEnd);
+//         } catch (e) {
+//             console.log('Cant get selection text')
+//         }
+//     }
+//     // For IE
+//     if (document.selection && document.selection.type != "Control") {
+//         return document.selection.createRange().text;
+//     }
+// }
 
 // function uploadFile(){
 //   var form_data = new FormData(document.querySelector('form'));

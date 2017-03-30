@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="https://1525770.linux.studentwebserver.co.uk/ecorpi/"
   xmlns="https://1525770.linux.studentwebserver.co.uk/ecorpi/"
   elementFormDefault="qualified">
+
+<!-- targetNamespace="https://1525770.linux.studentwebserver.co.uk/ecorpi/" -->
 
 <xs:element name="LiteraryWork">
   <xs:complexType>
     <xs:attribute name="Author" type="xs:string"/>
     <xs:attribute name="Title" type="xs:string"/>
-    <xs:attribute name="Type" type="xs:string"/>    
+    <xs:attribute name="Type" type="xs:string"/>
   </xs:complexType>
 </xs:element>
 
