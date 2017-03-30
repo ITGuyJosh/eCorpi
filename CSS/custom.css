@@ -130,6 +130,7 @@ section {
 .custom-overview-pane {
   padding-right: 7.5px;
   z-index: 1;
+  border-right: thin solid #e7e7e7;
 }
 
 .custom-visualisation-pane {
@@ -210,6 +211,11 @@ pre {
 @media (max-width: 991px) {
   .custom-overview-pane {
     padding-right: 15px;
+    border-right: 0;
+  }
+
+  .overview-pane {
+    border-bottom: thin solid #e7e7e7;  
   }
 
   .custom-visualisation-pane {

@@ -83,7 +83,6 @@ $(document).ready(function() {
                     }, 2000);
                 });
             }, 2000);
-            //this.reset();
         }
 
     });
@@ -127,7 +126,7 @@ $(document).ready(function() {
 
           dataset = updatedXML;
 
-          console.log(updatedXML);
+          //console.log(updatedXML);
 
           formData.push(
             {name: 'updatedXML',value: updatedXML}
@@ -149,7 +148,8 @@ $(document).ready(function() {
                 });
             }, 2000);
 
-        }
+        },
+        clearForm: true
     });
 
 });
@@ -164,7 +164,6 @@ $(document).ready(function() {
 * @param {string} - value - User Value for tag
 */
 function addTagToXML(text, searchTerm, selElement, selAttribute, selValue) {
-  //console.log(text);
   var textAsArray = text.split(" ");
   var checkElement = "<" + selElement;
 
@@ -178,11 +177,9 @@ function addTagToXML(text, searchTerm, selElement, selAttribute, selValue) {
 
   var interimArray2 = interimArray.map(function(el, i, arr) {
     if(el === searchTerm) {
-      //console.log(typeof(selElement));
       var element = document.createElement(selElement);
       var attr1 = element.setAttribute(selAttribute, selValue);
       element.textContent = el;
-      //console.log(element.outerHTML);
       return element.outerHTML;
 
     } else {
@@ -209,7 +206,7 @@ $(function() {
 
             var sel = getSelectionText();
             var m = "Clicked on " + key + " on element " + sel;
-            window.console && console.log(m) || alert(m);
+            //window.console && console.log(m) || alert(m);
         },
         items: {
             "assign-tags": {
@@ -408,6 +405,8 @@ function tagRenderer(ev) {
         });
         taglist.appendChild(tag);
     });
+
+      taglist.removeChild(taglist.childNodes[0]);
 }
 
 
