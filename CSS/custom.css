@@ -91,7 +91,7 @@ section {
 .textarea-content {
   width: 100%;
   height: 100%;
-  font-size: 1.3em;
+  font-size: 1em;
   padding: 8px;
   color: #333;
   resize: none;
@@ -113,6 +113,7 @@ section {
   width: 100%;
   height: 100%;
   min-height: 100%;
+  text-align: center;
   //background: #f9f9f9;
 }
 
@@ -191,6 +192,7 @@ pre {
   padding: 1%;
   text-align: center;
   display: none;
+  margin-left: 1%;
 }
 
 .selected-file-style {
@@ -200,6 +202,46 @@ pre {
 .mark {
   background: yellow;
 }
+
+.tagmark {
+  background: pink;
+}
+
+.wordcloud {
+  width: 100%;
+  height: 500px;
+}
+
+.wordcontext {
+  /*width:100%;
+  height: 100%;
+  min-height: 100%;*/
+}
+
+.btn {
+  border-radius: 0 !important;
+}
+
+#search-bar-button {
+  border-left-width: 0;
+  margin-right: 5px;
+}
+
+.search-control {
+  border-radius: 0 !important;
+}
+
+
+
+.placeholder {
+  font-size: 5em;
+  color: #e7e7e7;
+  font-style: italic;
+  height: 700px;
+  line-height: 700px;
+  text-align: center;
+}
+
 
 /* Media Queries  */
 @media (max-width: 979px) {
@@ -215,7 +257,7 @@ pre {
   }
 
   .overview-pane {
-    border-bottom: thin solid #e7e7e7;  
+    border-bottom: thin solid #e7e7e7;
   }
 
   .custom-visualisation-pane {

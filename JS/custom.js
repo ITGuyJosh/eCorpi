@@ -1,5 +1,7 @@
 // GLOBALS
 var dataset = "";
+var arrayOfAvailableTags = [[]];
+var arrayOfDocTags = [[]];
 
 //ON DOC READY
 $(document).ready(function() {
@@ -38,6 +40,28 @@ $(document).ready(function() {
             $(".formatted-content").mark(searchitem, options);
         }
     });
+
+    getAvailableTags();
+
+    // $("#previous-search-button").on("click", function() {
+    //   var searchField = $("#search-bar").val();
+    //     console.log("previous");
+    //     console.log(dataset);
+    //     console.log(searchField);
+    //     if(dataset != "" && searchField != ""){
+    //           $(document).scrollTop($(this).parent().next().offset().top);
+    //     }
+    // });
+    //
+    // $("#next-search-button").on("click", function() {
+    //     var searchField = $("#search-bar").val();
+    //     console.log("next");
+    //     $("mark").scrollTop($(this).parent().next().offset().top);
+    //     return false
+    //     // if(dataset != "" && searchField != ""){
+    //     //
+    //     // }
+    // });
 
     $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
       var txt = $(this).html();
@@ -198,6 +222,9 @@ function addTagToXML(text, searchTerm, selElement, selAttribute, selValue) {
   return output.join(" ");
 };
 
+
+
+
 // RIGHT CLICK MENU
 $(function() {
     $.contextMenu({
@@ -205,21 +232,36 @@ $(function() {
         callback: function(key, options) {
 
             var sel = getSelectionText();
-            var m = "Clicked on " + key + " on element " + sel;
+            //var m = "Clicked on " + key + " on element " + sel;
             //window.console && console.log(m) || alert(m);
+
+            if (key == "analyse-key1") {
+                //console.log(sel);
+                clearVisualisation();
+                wordContext(sel);
+
+            }
+
+            if (key == "analyse-key2") {
+                clearVisualisation();
+                wordFreqCloud();
+            }
+
         },
         items: {
             "assign-tags": {
                 name: "Assign Tags",
                 callback: function(key, options) {
                     var sel = getSelectionText();
-                    getAvailableTags();
+                    getAvailableTagsToRender();
                     //triggered when modal is about to be shown
                     $('#assign-tag-modal').on('show.bs.modal', function(e) {
                         //populate the textbox
                         $(e.currentTarget).find('input[name="selection"]').val(sel);
                     });
                     $("#assign-tag-modal").modal();
+
+
                 }
             },
             "analyse": {
@@ -250,7 +292,132 @@ $(function() {
 
 
 // SUPPORT FUNCTIONS
+
 // overview text selection
+function wordFreqCloud() {
+  // Create an options object for initialization
+  var visualdiv = document.getElementById("visualisation-selector");
+  var contextItem = document.createElement("canvas");
+  contextItem.setAttribute("id", "canvas");
+  contextItem.setAttribute("class", "wordcloud");
+  contextItem.setAttribute("width", "1448");
+  contextItem.setAttribute("height", "940");
+  visualdiv.appendChild(contextItem);
+
+  var canvas = document.getElementById("canvas");
+
+
+  var options = {
+    workerUrl: 'Libs/wordfreq/src/wordfreq.worker.js'
+  };
+  // Initialize and run process() function
+
+  var wordfreq = WordFreq(options).process(dataset, function (items) {
+    console.log(wordfreq);
+    // console.log the list returned in this callback.
+    //console.log(list);
+
+    var list = items.slice(0, 100);
+
+
+
+    WordCloud(canvas, {
+      list: list,
+          gridSize: Math.round(16 * $('#canvas').width() / 1024),
+          weightFactor: function (size) {
+            return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
+          },
+          fontFamily: 'Times, serif',
+          color: function (word, weight) {
+            return (weight === 12) ? '#f02222' : '#c09292';
+          },
+          rotateRatio: 0.5,
+          rotationSteps: 2,
+          backgroundColor: '#e7e7e7'
+
+    });
+
+[
+  [tag, 0],
+  [tag, 0]
+]
+
+      // gridSize: Math.round(16 * $(canvas).width() / 1024),
+      //     weightFactor: function (size) {
+      //       return Math.pow(size, 2.3) * $(canvas).width() / 1024;
+      //     },
+      //     fontFamily: 'Times, serif',
+      //     color: function (word, weight) {
+      //       return (weight === 12) ? '#f02222' : '#c09292';
+      //     },
+      //     rotateRatio: 0.5,
+      //     rotationSteps: 2,
+
+
+      // options: {
+      //     gridSize: Math.round(16 * $('#canvas').width() / 1024),
+      //     weightFactor: function (size) {
+      //       return Math.pow(size, 2.3) * $('#canvas').width() / 1024;
+      //     },
+      //     fontFamily: 'Times, serif',
+      //     color: function (word, weight) {
+      //       return (weight === 12) ? '#f02222' : '#c09292';
+      //     },
+      //     rotateRatio: 0.5,
+      //     rotationSteps: 2,
+      //     backgroundColor: '#ffe0e0'
+      // }
+      console.log(list);
+
+
+
+  });
+  console.log(wordfreq);
+}
+
+function wordContext(sel){
+  var strippedfile = tagStripper(dataset);
+  var arrayOfWords = strippedfile.split(" ");
+  var arrayOfContext = [];
+  var visualdiv = document.getElementById("visualisation-selector");
+
+  arrayOfWords.forEach(function(word){
+    if(word == sel){
+      var wordindex = arrayOfWords.indexOf(word);
+      var pre = wordindex - 4;
+      var splice = arrayOfWords.splice(pre, 8);
+      //var postsplice = arrayOfWords.splice(post, wordindex);
+      console.log(wordindex);
+      console.log(pre);
+      console.log(splice);
+
+      var join = splice.join(" ");
+
+      join = join.replace('\r', ' ').replace('\n', ' ').replace(word, '<b>' + word + '</b>');
+
+      arrayOfContext.push(join);
+
+    }
+  });
+
+  arrayOfContext.forEach(function(lst, i, arr) {
+      var contextItem = document.createElement("p");
+      contextItem.innerHTML = lst
+      visualdiv.appendChild(contextItem);
+  });
+
+}
+
+
+
+function clearVisualisation() {
+  var visualdiv = document.getElementById("visualisation-selector");
+
+  while (visualdiv.hasChildNodes()) {
+    visualdiv.removeChild(visualdiv.firstChild);
+  }
+}
+
 function getSelectionText() {
     var text = "";
     if (window.getSelection) {
@@ -280,7 +447,7 @@ function loadFile(file) {
     $.ajax({
         type: "GET",
         url: "ServerFiles/load.php",
-        datatype: "string",
+        datatype: "xml",
         data: file,
         success: fileLoader,
         fail: function(data) {
@@ -293,7 +460,7 @@ function loadFile(file) {
 function getAvailableFiles() {
     $.ajax({
         type: "GET",
-        url: 'ServerFiles/getfiles.php',
+        url: 'ServerFiles/get_files.php',
         datatype: "json",
         success: fileRenderer,
         fail: function(data) {
@@ -306,7 +473,22 @@ function getAvailableFiles() {
 function getAvailableTags() {
     $.ajax({
         type: "GET",
-        url: 'ServerFiles/xml.php',
+        url: 'ServerFiles/get_tags.php',
+        datatype: "json",
+        success: function(ev){
+          arrayOfAvailableTags = JSON.parse(ev);
+        },
+        fail: function(data) {
+            console.log("fail");
+            console.log(data);
+        }
+    });
+}
+
+function getAvailableTagsToRender() {
+    $.ajax({
+        type: "GET",
+        url: 'ServerFiles/get_tags.php',
         datatype: "json",
         success: tagRenderer,
         fail: function(data) {
@@ -317,16 +499,152 @@ function getAvailableTags() {
 }
 
 function fileLoader(file) {
+
+    //document.location.reload(true);
+
     dataset = file;
-    console.log(dataset);
-    //stripping tags
-    
+
+    arrayOfDocTags = getDocumentTags(dataset);
+
+    //var arrayOfTags = getDatasetTags(dataset);
+    var strippedfile = tagStripper(dataset);
+    //console.log(strippedfile);
+    //console.log(arrayOfTags);
+    //marking up the background
+
 
 
     var textarea = document.getElementById("document-textarea");
     var title = this.url.split("php?")[1];
     var noXMLTitle = title.split(".xml")[0];
-    textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + file + "</pre>";
+    textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + strippedfile + "</pre>";
+
+    //var options = {"className": "tagmark"};
+    //$(".formatted-content").markRegExp(/>(.*?)<\//ig, options);
+
+}
+
+
+function parseXMLTags(data){
+  var parseXML;
+  var xmlStr = data;
+  // $xml = $(xmlset);
+  // console.log($xml);
+  //var tagsArray = [];
+
+  if (window.DOMParser) {
+    parseXml = function(xmlStr) {
+        return ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml");
+    };
+  } else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+      parseXml = function(xmlStr) {
+          var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async = "false";
+          xmlDoc.loadXML(xmlStr);
+          return xmlDoc;
+      };
+  } else {
+      parseXml = function() { return null; }
+  }
+
+   return xmlDoc = parseXml(xmlStr);
+
+}
+
+
+
+function getDocumentTags(dataset){
+  var data = dataset;
+
+  var stringData = toString(data);
+  var words = getDatasetWords(data);
+
+
+  //var xmlDoc = parseXMLTags(data);
+
+
+  console.log(tags);
+  console.log(stringData);
+
+  //arrayOfAvailableTags.
+
+  // for (var i = 0; i < array.length; i++) {
+  //   array[i]
+  // }
+
+  // for (x in arrayOfAvailableTags) {
+  //   console.log(x.);
+  //   for
+  // }
+
+  ///var n = data.includes();
+
+
+}
+
+
+
+
+function getDatasetWords(dataset){
+
+  var stringData = dataset;
+  //console.log(tagsArray);
+
+  //var result = tagsArray.match(/<[^>]*>/g);
+  //>(.*?)<\/
+
+  ">myriad</"
+
+  var result = stringData.match(/>(.*?)<\//g)[0].slice(1, -2);
+
+
+
+
+
+
+
+  // .map(function(val){
+  //    return val.replace(/<\/?b>/g,'');
+  // });
+
+  console.log(tagsArray);
+
+  //var textAsArray = dataset.split(" ");
+  //var checkElement = "<";
+
+  //console.log(tagsArray);
+
+  // var result = tagsArray.match(/<b>(.*?)<\/b>/g).map(function(val){
+  //    return val.replace(/<\/?b>/g,'');
+  // });
+
+  // var interimArray = textAsArray.map(function(el, i, arr) {
+  //   if(el.indexOf(checkElement) > -1) {
+  //     tagsArray.push(el);
+  //     return "";
+  //   } else {
+  //
+  //     return el;
+  //   }
+  // });
+
+  return true;
+  //console.log(result);
+
+
+}
+
+function tagStripper(dataset){
+
+  var interimDataset = dataset;
+
+  if ((interimDataset === null) || (interimDataset === '')) {
+    return false;
+  } else {
+    str = interimDataset.toString();
+    return str.replace(/<[^>]*>/g, '');
+  }
+
 }
 
 function fileRenderer(ev) {
@@ -354,6 +672,9 @@ function fileRenderer(ev) {
 
 function tagRenderer(ev) {
     var data = JSON.parse(ev);
+    //arrayOfAvailableTags = data;
+
+
     var taglist = document.getElementById("tag-elements");
     taglist.innerHTML = "";
     var attrlist = document.getElementById("tag-attributes");

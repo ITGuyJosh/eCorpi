@@ -38,7 +38,9 @@ if(isset($_POST["submit"])) {
 
           $fileArray = file($target_file);
 
-          $dom = new DOMDocument;
+          $dom = new DOMDocument("1.0", "UTF-8");
+
+          //$dom->encoding("UTF-8");
 
           $data = $dom->createElement('LiteraryWork');
 
@@ -51,15 +53,18 @@ if(isset($_POST["submit"])) {
           error_reporting(0);
 
           foreach($fileArray as $line) {
-             $text = $dom->createTextNode(ConvertToUTF8($line));
+             //$text = $dom->createTextNode(ConvertToUTF8($line));
+             $text = $dom->createTextNode(html_entity_decode($line, ENT_COMPAT | ENT_HTML_401, "ISO-8859-1"));
+             //$text = $dom->createTextNode($line);
              $data->appendChild($text);
           }
 
           $xmlfile = basename($_FILES["file-selector"]["name"], ".txt") . ".xml";
 
+          //$xmlfile = html_entity_decode($xmlfile, ENT_COMPAT | ENT_HTML_401, "ISO-8859-1");
+
           file_put_contents("../UserFiles/Files/" . $xmlfile, $dom->saveXML());
           unlink($target_file);
-
 
           error_reporting(-1);
 
@@ -73,20 +78,26 @@ if(isset($_POST["submit"])) {
 
 }
 
-function ConvertToUTF8($text){
-
-    $encoding = mb_detect_encoding($text, mb_detect_order(), false);
-
-    if($encoding == "UTF-8")
-    {
-        $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
-    }
-
-
-    $out = iconv(mb_detect_encoding($text, mb_detect_order(), false), "UTF-8//IGNORE", $text);
-
-
-    return $out;
-}
+// function ConvertToUTF8($text){
+//
+//     // $encoding = mb_detect_encoding($text, mb_detect_order(), false);
+//     //
+//     // echo $encoding;
+//     //
+//     // if($encoding == "UTF-8"){
+//     //     $out = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
+//     // } else {
+//     //     $out = iconv($encoding, "UTF-8", $text);
+//     // }
+//
+//     $text = utf8_encode($text);
+//     $text = iconv("ASCII", "UTF-8//TRANSLIT" , $text);
+//
+//     //$out = html_entity_decode($out);
+//     //echo $out;
+//
+//     $out = $text;
+//     return $out;
+// }
 
 ?>
