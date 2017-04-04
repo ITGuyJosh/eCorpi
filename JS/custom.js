@@ -1,7 +1,11 @@
 // GLOBALS
 var dataset = "";
-var arrayOfAvailableTags = [[]];
-var arrayOfDocTags = [[]];
+var arrayOfAvailableTags = [
+    []
+];
+var arrayOfDocTags = [
+    []
+];
 var docName;
 
 //ON DOC READY
@@ -47,17 +51,17 @@ $(document).ready(function() {
 
     //removing chrome fakepath
     $("#upload-file-info").on("DOMSubtreeModified", function() {
-      var text = $('#upload-file-info').html();
-      text = text.substring(text.lastIndexOf("\\") + 1, text.length);
-      $('#upload-file-info').html(text);
+        var text = $('#upload-file-info').html();
+        text = text.substring(text.lastIndexOf("\\") + 1, text.length);
+        $('#upload-file-info').html(text);
     });
 
 
     $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
-      var txt = $(this).html();
-      //var count = $("mark").length;
-      var count = getCountOfMarks(txt);
-      var message = "There are " + count + " counts of '" + txt + "'.";
+        var txt = $(this).html();
+        //var count = $("mark").length;
+        var count = getCountOfMarks(txt);
+        var message = "There are " + count + " counts of '" + txt + "'.";
 
         $(this).tooltipster({
             theme: 'tooltipster-light',
@@ -78,60 +82,60 @@ $(document).ready(function() {
     //downloads
     $("#export-modal-button").on("click", function() {
 
-      var doc = document.getElementById("exportDoc");
-      var visual = document.getElementById("exportVisual");
-      var schema = document.getElementById("exportSchema");
-      var canvas = document.getElementById("canvas");
+        var doc = document.getElementById("exportDoc");
+        var visual = document.getElementById("exportVisual");
+        var schema = document.getElementById("exportSchema");
+        var canvas = document.getElementById("canvas");
 
-      doc.onclick = function(){
-        if(docName != null) {
-          var link = "UserFiles\\Files\\" + docName;
-          doc.href = link;
-          doc.setAttribute("download",docName);
-          doc.click();
+        doc.onclick = function() {
+            if (docName != null) {
+                var link = "UserFiles\\Files\\" + docName;
+                doc.href = link;
+                doc.setAttribute("download", docName);
+                doc.click();
 
-          successDownload();
+                successDownload();
 
-        } else {
-          $("#negative-alert").html("<strong>Please load a document!</strong>");
-          $("#negative-alert").fadeIn("slow", function() {
-              setTimeout(function() {
-                  $("#negative-alert").fadeOut("slow");
-              }, 2000);
-          });
+            } else {
+                $("#negative-alert").html("<strong>Please load a document!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
+            }
+
         }
 
-      }
+        visual.onclick = function() {
 
-      visual.onclick = function() {
+            if (canvas != null) {
 
-          if(canvas != null) {
+                visual.href = canvas.toDataURL();
+                visual.download = "visualisation.png";
+                visual.click();
 
-            visual.href = canvas.toDataURL();
-            visual.download = "visualisation.png";
-            visual.click();
+                successDownload();
+            } else {
+                $("#negative-alert").html("<strong>Please use a frequency analysis first!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
+            }
 
-            successDownload();
-          } else {
-            $("#negative-alert").html("<strong>Please use a frequency analysis first!</strong>");
-            $("#negative-alert").fadeIn("slow", function() {
-                setTimeout(function() {
-                    $("#negative-alert").fadeOut("slow");
-                }, 2000);
-            });
-          }
-
-      }
+        }
 
 
-        schema.onclick = function(){
+        schema.onclick = function() {
 
             var link = "schema.xsd";
             schema.href = link;
             schema.setAttribute("download", link);
             schema.click();
             successDownload();
-          }
+        }
 
     });
 
@@ -147,7 +151,7 @@ $(document).ready(function() {
                 }, 2000);
             });
         } else {
-          clearVisualisation();
+            clearVisualisation();
             loadFile(file);
             $("#load-modal").delay(1000).fadeOut('slow');
             setTimeout(function() {
@@ -171,33 +175,33 @@ $(document).ready(function() {
         url: 'ServerFiles/upload.php',
         type: 'post',
         beforeSubmit: function() {
-          var file = document.getElementById("file-selector").value;
-          var author = document.getElementById("file-meta-author").value;
-          var title = document.getElementById("file-meta-title").value;
-          var type = document.getElementById("file-meta-genre").value;
-          var mime = file.substring(file.length - 4, file.length);
+            var file = document.getElementById("file-selector").value;
+            var author = document.getElementById("file-meta-author").value;
+            var title = document.getElementById("file-meta-title").value;
+            var type = document.getElementById("file-meta-genre").value;
+            var mime = file.substring(file.length - 4, file.length);
 
-          if(file.trim() == "" || author.trim() == "" || title.trim() == "" || type.trim() == "") {
-            $("#negative-alert").html("<strong>Please select a document and enter all meta data!</strong>");
-            $("#negative-alert").fadeIn("slow", function() {
-                setTimeout(function() {
-                    $("#negative-alert").fadeOut("slow");
-                }, 2000);
-            });
+            if (file.trim() == "" || author.trim() == "" || title.trim() == "" || type.trim() == "") {
+                $("#negative-alert").html("<strong>Please select a document and enter all meta data!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
 
-            return false;
+                return false;
 
-          }
-          if (mime != ".txt") {
-            $("#negative-alert").html("<strong>Please ensure your file is a '.txt' document!</strong>");
-            $("#negative-alert").fadeIn("slow", function() {
-                setTimeout(function() {
-                    $("#negative-alert").fadeOut("slow");
-                }, 2000);
-            });
+            }
+            if (mime != ".txt") {
+                $("#negative-alert").html("<strong>Please ensure your file is a '.txt' document!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
 
-            return false;
-          }
+                return false;
+            }
 
         },
         success: function() {
@@ -224,61 +228,64 @@ $(document).ready(function() {
     $("#assign-tags-form").ajaxForm({
         url: 'ServerFiles/assign.php',
         type: 'post',
-        beforeSubmit: function(formData, formObject, formOptions){
-          var filename = $(".formatted-content").attr("id");
-          var text = dataset;
-          var searchTerm = $("#selected-word").val();
-          var selElement = $(".active").html();
-          var selAttribute = $("#selected-attr").val();
-          var selValue = $("#new-value").val();
+        beforeSubmit: function(formData, formObject, formOptions) {
+            var filename = $(".formatted-content").attr("id");
+            var text = dataset;
+            var searchTerm = $("#selected-word").val();
+            var selElement = $(".active").html();
+            var selAttribute = $("#selected-attr").val();
+            var selValue = $("#new-value").val();
 
 
 
-        if(searchTerm.trim() == ""){
-          $("#negative-alert").html("<strong>Please select a search term by highlighting and right clicking a word to assign!</strong>");
-          $("#negative-alert").fadeIn("slow", function() {
-              setTimeout(function() {
-                  $("#negative-alert").fadeOut("slow");
-              }, 2000);
-          });
+            if (searchTerm.trim() == "") {
+                $("#negative-alert").html("<strong>Please select a search term by highlighting and right clicking a word to assign!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
 
-          return false;
-        }
-
-
-        if(selAttribute.trim() == ""){
-          $("#negative-alert").html("<strong>Please select an attribute by first clicking on an element!</strong>");
-          $("#negative-alert").fadeIn("slow", function() {
-              setTimeout(function() {
-                  $("#negative-alert").fadeOut("slow");
-              }, 2000);
-          });
-
-          return false;
-        }
-
-        if(selValue.trim() == ""){
-          $("#negative-alert").html("<strong>Please enter a value!</strong>");
-          $("#negative-alert").fadeIn("slow", function() {
-              setTimeout(function() {
-                  $("#negative-alert").fadeOut("slow");
-              }, 2000);
-          });
-
-          return false;
-        }
+                return false;
+            }
 
 
-        var updatedXML = addTagToXML(text, searchTerm, selElement, selAttribute, selValue);
+            if (selAttribute.trim() == "") {
+                $("#negative-alert").html("<strong>Please select an attribute by first clicking on an element!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
 
-        dataset = updatedXML;
+                return false;
+            }
 
-        //console.log(updatedXML);
+            if (selValue.trim() == "") {
+                $("#negative-alert").html("<strong>Please enter a value!</strong>");
+                $("#negative-alert").fadeIn("slow", function() {
+                    setTimeout(function() {
+                        $("#negative-alert").fadeOut("slow");
+                    }, 2000);
+                });
 
-        formData.push(
-          {name: 'updatedXML',value: updatedXML},
-          {name: 'filename',value: filename}
-      );
+                return false;
+            }
+
+
+            var updatedXML = addTagToXML(text, searchTerm, selElement, selAttribute, selValue);
+
+            dataset = updatedXML;
+
+            //console.log(updatedXML);
+
+            formData.push({
+                name: 'updatedXML',
+                value: updatedXML
+            }, {
+                name: 'filename',
+                value: filename
+            });
 
         },
         success: function() {
@@ -309,56 +316,56 @@ $(document).ready(function() {
 
 
 function successDownload() {
-  $("#positive-alert").html("<strong>Download Successful!</strong>");
-  $("#positive-alert").fadeIn("slow", function() {
-      setTimeout(function() {
-          $("#positive-alert").fadeOut("slow");
-      }, 2000);
-  });
+    $("#positive-alert").html("<strong>Download Successful!</strong>");
+    $("#positive-alert").fadeIn("slow", function() {
+        setTimeout(function() {
+            $("#positive-alert").fadeOut("slow");
+        }, 2000);
+    });
 }
 
 /**
-* @name addTagToXML
-* @description Adds tag to XML
-* @param {string} - text - Text to add tag to
-* @param {string} - searchTerm - Text to replace with tag
-* @param {string} - listelement - Schema Element to enclose tag
-* @param {string} - attribute - Schema Attribute for tag
-* @param {string} - value - User Value for tag
-*/
+ * @name addTagToXML
+ * @description Adds tag to XML
+ * @param {string} - text - Text to add tag to
+ * @param {string} - searchTerm - Text to replace with tag
+ * @param {string} - listelement - Schema Element to enclose tag
+ * @param {string} - attribute - Schema Attribute for tag
+ * @param {string} - value - User Value for tag
+ */
 function addTagToXML(text, searchTerm, selElement, selAttribute, selValue) {
-  var textAsArray = text.split(" ");
-  var checkElement = "<" + selElement;
+    var textAsArray = text.split(" ");
+    var checkElement = "<" + selElement;
 
-  var interimArray = textAsArray.map(function(el, i, arr) {
-    if(el.indexOf(checkElement) > -1) {
-      return "";
-    } else {
-      return el;
-    }
-  });
+    var interimArray = textAsArray.map(function(el, i, arr) {
+        if (el.indexOf(checkElement) > -1) {
+            return "";
+        } else {
+            return el;
+        }
+    });
 
-  var interimArray2 = interimArray.map(function(el, i, arr) {
-    if(el === searchTerm) {
-      var element = document.createElement(selElement);
-      var attr1 = element.setAttribute(selAttribute, selValue);
-      element.textContent = el;
-      return element.outerHTML;
+    var interimArray2 = interimArray.map(function(el, i, arr) {
+        if (el === searchTerm) {
+            var element = document.createElement(selElement);
+            var attr1 = element.setAttribute(selAttribute, selValue);
+            element.textContent = el;
+            return element.outerHTML;
 
-    } else {
-      return el;
-    }
-  });
+        } else {
+            return el;
+        }
+    });
 
-  var output = interimArray2.map(function(el, i, arr) {
-    if(el == "") {
-      return textAsArray[i];
-    } else {
-      return el;
-    }
-  });
+    var output = interimArray2.map(function(el, i, arr) {
+        if (el == "") {
+            return textAsArray[i];
+        } else {
+            return el;
+        }
+    });
 
-  return output.join(" ");
+    return output.join(" ");
 };
 
 
@@ -439,149 +446,149 @@ $(function() {
 
 // overview text selection
 function wordCloud() {
-  // Create an options object for initialization
-  var visualdiv = document.getElementById("visualisation-selector");
-  var contextItem = document.createElement("canvas");
-  contextItem.setAttribute("id", "canvas");
-  contextItem.setAttribute("class", "wordcloud");
-  contextItem.setAttribute("width", "1448");
-  contextItem.setAttribute("height", "940");
-  visualdiv.appendChild(contextItem);
-  var canvas = document.getElementById("canvas");
+    // Create an options object for initialization
+    var visualdiv = document.getElementById("visualisation-selector");
+    var contextItem = document.createElement("canvas");
+    contextItem.setAttribute("id", "canvas");
+    contextItem.setAttribute("class", "wordcloud");
+    contextItem.setAttribute("width", "1448");
+    contextItem.setAttribute("height", "940");
+    visualdiv.appendChild(contextItem);
+    var canvas = document.getElementById("canvas");
 
-  var data = tagStripper(dataset);
+    var data = tagStripper(dataset);
 
-  var options = {
-    workerUrl: 'Libs/wordfreq/src/wordfreq.worker.js'
-  };
+    var options = {
+        workerUrl: 'Libs/wordfreq/src/wordfreq.worker.js'
+    };
 
 
-  var wordfreq = WordFreq(options).process(data, function (items) {
+    var wordfreq = WordFreq(options).process(data, function(items) {
 
-    console.log(items.length);
+        console.log(items.length);
 
-    if (items.length > 20) {
-      var list = items.slice(0, 50);
+        if (items.length > 20) {
+            var list = items.slice(0, 50);
 
-      //console.log(list);
+            //console.log(list);
 
-      var highestCount = list[0][1];
-      var maxCount = 22;
-      //console.log(highestCount);
+            var highestCount = list[0][1];
+            var maxCount = 22;
+            //console.log(highestCount);
 
-      for (var i = 0; i < list.length; i++) {
-        var currentCount = list[i][1];
-        var normalisedCount = currentCount / (highestCount / maxCount);
-        list[i][1] = normalisedCount;
-      }
+            for (var i = 0; i < list.length; i++) {
+                var currentCount = list[i][1];
+                var normalisedCount = currentCount / (highestCount / maxCount);
+                list[i][1] = normalisedCount;
+            }
 
-      WordCloud(canvas, {
-        list: list,
-            gridSize: Math.round(16 * $('#canvas').width() / 1024),
-            weightFactor: function (size) {
-              return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
-            },
-            fontFamily: 'Times, serif',
-            color: function (word, weight) {
-              return (weight === 12) ? '#f02222' : '#2e2e2e';
-            },
-            rotateRatio: 0.5,
-            rotationSteps: 2,
-            backgroundColor: '#e7e7e7'
+            WordCloud(canvas, {
+                list: list,
+                gridSize: Math.round(16 * $('#canvas').width() / 1024),
+                weightFactor: function(size) {
+                    return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
+                },
+                fontFamily: 'Times, serif',
+                color: function(word, weight) {
+                    return (weight === 12) ? '#f02222' : '#2e2e2e';
+                },
+                rotateRatio: 0.5,
+                rotationSteps: 2,
+                backgroundColor: '#e7e7e7'
 
-      });
+            });
 
-    } else {
-        clearVisualisation();
-        $("#negative-alert").html("<strong>Please select a document with more words!</strong>");
-        $("#negative-alert").fadeIn("slow", function() {
-            setTimeout(function() {
-                $("#negative-alert").fadeOut("slow");
-            }, 2000);
-        });
+        } else {
+            clearVisualisation();
+            $("#negative-alert").html("<strong>Please select a document with more words!</strong>");
+            $("#negative-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                    $("#negative-alert").fadeOut("slow");
+                }, 2000);
+            });
 
-        return;
-    }
+            return;
+        }
 
-  });
+    });
 }
 
 
 
-function setDocDownload(){
-  var doc = document.getElementById("exportDoc");
-  var link = "UserFiles\\Files\\" + docName;
-  //console.log(docName);
-  //console.log(link);
+function setDocDownload() {
+    var doc = document.getElementById("exportDoc");
+    var link = "UserFiles\\Files\\" + docName;
+    //console.log(docName);
+    //console.log(link);
 
-  doc.href = link;
+    doc.href = link;
 }
 
 
 function tagCloud() {
-  //Create an options object for initialization
-  var visualdiv = document.getElementById("visualisation-selector");
-  var contextItem = document.createElement("canvas");
-  contextItem.setAttribute("id", "canvas");
-  contextItem.setAttribute("class", "wordcloud");
-  contextItem.setAttribute("width", "1448");
-  contextItem.setAttribute("height", "940");
-  visualdiv.appendChild(contextItem);
-  var canvas = document.getElementById("canvas");
-  var data = dataset;
-  var eleArr = [];
-  var docTagArray = [];
+    //Create an options object for initialization
+    var visualdiv = document.getElementById("visualisation-selector");
+    var contextItem = document.createElement("canvas");
+    contextItem.setAttribute("id", "canvas");
+    contextItem.setAttribute("class", "wordcloud");
+    contextItem.setAttribute("width", "1448");
+    contextItem.setAttribute("height", "940");
+    visualdiv.appendChild(contextItem);
+    var canvas = document.getElementById("canvas");
+    var data = dataset;
+    var eleArr = [];
+    var docTagArray = [];
 
-  $.each(arrayOfAvailableTags, function( key, value ) {
-    eleArr.push(key);
-  });
+    $.each(arrayOfAvailableTags, function(key, value) {
+        eleArr.push(key);
+    });
 
-  for (var i = 0; i < eleArr.length; i++) {
+    for (var i = 0; i < eleArr.length; i++) {
 
-    var element = "<" + eleArr[i];
-    element = element.toLowerCase();
+        var element = "<" + eleArr[i];
+        element = element.toLowerCase();
 
-    var n = occurrences(data.toLowerCase(), element, false);
+        var n = occurrences(data.toLowerCase(), element, false);
 
-    if (n > 0) {
-        element = element.slice(1);
-        var tmp = new Array(element, n);
-        docTagArray.push(tmp);
+        if (n > 0) {
+            element = element.slice(1);
+            var tmp = new Array(element, n);
+            docTagArray.push(tmp);
 
+        }
     }
-  }
-  arrayOfDocTags = docTagArray;
-  list = docTagArray;
+    arrayOfDocTags = docTagArray;
+    list = docTagArray;
 
-  console.log();
+    console.log();
 
-  var lowestCount = list[0][1];
-  var maxCount = 22;
-  //console.log(highestCount);
+    var lowestCount = list[0][1];
+    var maxCount = 22;
+    //console.log(highestCount);
 
-  // for (var i = 0; i < list.length; i++) {
-  //   var currentCount = list[i][1];
-  //   var normalisedCount = currentCount / (highestCount / maxCount);
-  //   list[i][1] = normalisedCount;
-  // }
+    // for (var i = 0; i < list.length; i++) {
+    //   var currentCount = list[i][1];
+    //   var normalisedCount = currentCount / (highestCount / maxCount);
+    //   list[i][1] = normalisedCount;
+    // }
 
 
-  WordCloud(canvas, {
-    list: list,
+    WordCloud(canvas, {
+        list: list,
         gridSize: Math.round(16 * $('#canvas').width() / 1024),
         weightFactor: 75,
         // weightFactor: function (size) {
         //   return Math.pow(size, 5) * $('#canvas').width() / 1024;
         // },
         fontFamily: 'Times, serif',
-        color: function (word, weight) {
-          return (weight === 12) ? '#f02222' : '#2e2e2e';
+        color: function(word, weight) {
+            return (weight === 12) ? '#f02222' : '#2e2e2e';
         },
         rotateRatio: 0.5,
         rotationSteps: 2,
         backgroundColor: '#e7e7e7'
 
-  });
+    });
 
 
 }
@@ -619,44 +626,44 @@ function occurrences(string, subString, allowOverlapping) {
 }
 
 
-function wordContext(sel){
-  var strippedfile = tagStripper(dataset);
-  var arrayOfWords = strippedfile.split(" ");
-  var arrayOfContext = [];
-  var visualdiv = document.getElementById("visualisation-selector");
+function wordContext(sel) {
+    var strippedfile = tagStripper(dataset);
+    var arrayOfWords = strippedfile.split(" ");
+    var arrayOfContext = [];
+    var visualdiv = document.getElementById("visualisation-selector");
 
-  arrayOfWords.forEach(function(word){
-    if(word.toUpperCase() == sel.toUpperCase()){
-      var wordindex = arrayOfWords.indexOf(word);
+    arrayOfWords.forEach(function(word) {
+        if (word.toUpperCase() == sel.toUpperCase()) {
+            var wordindex = arrayOfWords.indexOf(word);
 
-      var pre = wordindex - 5;
-      var splice = arrayOfWords.splice(pre, 9);
+            var pre = wordindex - 5;
+            var splice = arrayOfWords.splice(pre, 9);
 
-      var join = splice.join(" ");
+            var join = splice.join(" ");
 
-      join = join.replace('\r', ' ').replace('\n', ' ').replace(word, '<b>' + word + '</b>');
+            join = join.replace('\r', ' ').replace('\n', ' ').replace(word, '<b>' + word + '</b>');
 
-      arrayOfContext.push(join);
+            arrayOfContext.push(join);
 
-    }
-  });
+        }
+    });
 
-  arrayOfContext.forEach(function(lst, i, arr) {
-      var contextItem = document.createElement("p");
-      contextItem.innerHTML = lst
-      visualdiv.appendChild(contextItem);
-  });
+    arrayOfContext.forEach(function(lst, i, arr) {
+        var contextItem = document.createElement("p");
+        contextItem.innerHTML = lst
+        visualdiv.appendChild(contextItem);
+    });
 
 }
 
 
 
 function clearVisualisation() {
-  var visualdiv = document.getElementById("visualisation-selector");
+    var visualdiv = document.getElementById("visualisation-selector");
 
-  while (visualdiv.hasChildNodes()) {
-    visualdiv.removeChild(visualdiv.firstChild);
-  }
+    while (visualdiv.hasChildNodes()) {
+        visualdiv.removeChild(visualdiv.firstChild);
+    }
 }
 
 function getSelectionText() {
@@ -670,17 +677,17 @@ function getSelectionText() {
 }
 
 //Count of given values
-function getCountOfMarks(value){
-  var counter = 0;
-  //var marks = $('mark').length;
-  $( "mark" ).each(function() {
-    if ($(this).text().toUpperCase() === value.toUpperCase()) {
-      counter++;
-    }
-    //console.log( index + ": " + $( this ).text() );
-  });
+function getCountOfMarks(value) {
+    var counter = 0;
+    //var marks = $('mark').length;
+    $("mark").each(function() {
+        if ($(this).text().toUpperCase() === value.toUpperCase()) {
+            counter++;
+        }
+        //console.log( index + ": " + $( this ).text() );
+    });
 
-  return counter;
+    return counter;
 }
 
 function loadFile(file) {
@@ -716,8 +723,8 @@ function getAvailableTags() {
         type: "GET",
         url: 'ServerFiles/get_tags.php',
         datatype: "json",
-        success: function(ev){
-          arrayOfAvailableTags = JSON.parse(ev);
+        success: function(ev) {
+            arrayOfAvailableTags = JSON.parse(ev);
         },
         fail: function(data) {
             console.log("fail");
@@ -768,135 +775,137 @@ function fileLoader(file) {
 }
 
 
-function parseXMLTags(data){
-  var parseXML;
-  var xmlStr = data;
-  // $xml = $(xmlset);
-  // console.log($xml);
-  //var tagsArray = [];
+function parseXMLTags(data) {
+    var parseXML;
+    var xmlStr = data;
+    // $xml = $(xmlset);
+    // console.log($xml);
+    //var tagsArray = [];
 
-  if (window.DOMParser) {
-    parseXml = function(xmlStr) {
-        return ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml");
-    };
-  } else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
-      parseXml = function(xmlStr) {
-          var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
-          xmlDoc.async = "false";
-          xmlDoc.loadXML(xmlStr);
-          return xmlDoc;
-      };
-  } else {
-      parseXml = function() { return null; }
-  }
+    if (window.DOMParser) {
+        parseXml = function(xmlStr) {
+            return (new window.DOMParser()).parseFromString(xmlStr, "text/xml");
+        };
+    } else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+        parseXml = function(xmlStr) {
+            var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = "false";
+            xmlDoc.loadXML(xmlStr);
+            return xmlDoc;
+        };
+    } else {
+        parseXml = function() {
+            return null;
+        }
+    }
 
-   return xmlDoc = parseXml(xmlStr);
-
-}
-
-
-
-function getDocumentTags(dataset){
-  var data = dataset;
-  var tags = arrayOfAvailableTags;
-  for (var i = 0; i < tags.length; i++) {
-    console.log(tags[i]);
-  }
-
-
-  var stringData = toString(data);
-  var words = getDatasetWords(data);
-
-
-  //var xmlDoc = parseXMLTags(data);
-
-
-  //console.log(tags);
-  //console.log(stringData);
-
-  //arrayOfAvailableTags.
-
-  // for (var i = 0; i < array.length; i++) {
-  //   array[i]
-  // }
-
-  // for (x in arrayOfAvailableTags) {
-  //   console.log(x.);
-  //   for
-  // }
-
-  ///var n = data.includes();
-
+    return xmlDoc = parseXml(xmlStr);
 
 }
 
 
 
-
-function getDatasetWords(dataset){
-
-  var stringData = dataset;
-  //console.log(tagsArray);
-
-  //var result = tagsArray.match(/<[^>]*>/g);
-  //>(.*?)<\/
-
-  //">myriad</"
-
-  //var result = stringData.match(/>(.*?)<\//g)[0].slice(1, -2);
+function getDocumentTags(dataset) {
+    var data = dataset;
+    var tags = arrayOfAvailableTags;
+    for (var i = 0; i < tags.length; i++) {
+        console.log(tags[i]);
+    }
 
 
+    var stringData = toString(data);
+    var words = getDatasetWords(data);
 
 
-// [
-//   [person, 5],
-//   [time, 3]
-// ]
+    //var xmlDoc = parseXMLTags(data);
 
 
-  // .map(function(val){
-  //    return val.replace(/<\/?b>/g,'');
-  // });
+    //console.log(tags);
+    //console.log(stringData);
 
-  //console.log(tagsArray);
+    //arrayOfAvailableTags.
 
-  //var textAsArray = dataset.split(" ");
-  //var checkElement = "<";
+    // for (var i = 0; i < array.length; i++) {
+    //   array[i]
+    // }
 
-  //console.log(tagsArray);
+    // for (x in arrayOfAvailableTags) {
+    //   console.log(x.);
+    //   for
+    // }
 
-  // var result = tagsArray.match(/<b>(.*?)<\/b>/g).map(function(val){
-  //    return val.replace(/<\/?b>/g,'');
-  // });
+    ///var n = data.includes();
 
-  // var interimArray = textAsArray.map(function(el, i, arr) {
-  //   if(el.indexOf(checkElement) > -1) {
-  //     tagsArray.push(el);
-  //     return "";
-  //   } else {
-  //
-  //     return el;
-  //   }
-  // });
 
-  return true;
-  //console.log(result);
+}
+
+
+
+
+function getDatasetWords(dataset) {
+
+    var stringData = dataset;
+    //console.log(tagsArray);
+
+    //var result = tagsArray.match(/<[^>]*>/g);
+    //>(.*?)<\/
+
+    //">myriad</"
+
+    //var result = stringData.match(/>(.*?)<\//g)[0].slice(1, -2);
+
+
+
+
+    // [
+    //   [person, 5],
+    //   [time, 3]
+    // ]
+
+
+    // .map(function(val){
+    //    return val.replace(/<\/?b>/g,'');
+    // });
+
+    //console.log(tagsArray);
+
+    //var textAsArray = dataset.split(" ");
+    //var checkElement = "<";
+
+    //console.log(tagsArray);
+
+    // var result = tagsArray.match(/<b>(.*?)<\/b>/g).map(function(val){
+    //    return val.replace(/<\/?b>/g,'');
+    // });
+
+    // var interimArray = textAsArray.map(function(el, i, arr) {
+    //   if(el.indexOf(checkElement) > -1) {
+    //     tagsArray.push(el);
+    //     return "";
+    //   } else {
+    //
+    //     return el;
+    //   }
+    // });
+
+    return true;
+    //console.log(result);
 
 
 }
 
 // function getAvailableTags
 
-function tagStripper(dataset){
+function tagStripper(dataset) {
 
-  var interimDataset = dataset;
+    var interimDataset = dataset;
 
-  if ((interimDataset === null) || (interimDataset === '')) {
-    return false;
-  } else {
-    str = interimDataset.toString();
-    return str.replace(/<[^>]*>/g, '');
-  }
+    if ((interimDataset === null) || (interimDataset === '')) {
+        return false;
+    } else {
+        str = interimDataset.toString();
+        return str.replace(/<[^>]*>/g, '');
+    }
 
 }
 
@@ -967,7 +976,7 @@ function tagRenderer(ev) {
         taglist.appendChild(tag);
     });
 
-      taglist.removeChild(taglist.childNodes[0]);
+    taglist.removeChild(taglist.childNodes[0]);
 }
 
 
@@ -1076,27 +1085,27 @@ function tagRenderer(ev) {
 
 
 
-    //console.log("This is " + n);
+//console.log("This is " + n);
 
 
-    //console.log(n);
+//console.log(n);
 
 
-    // if (!n.trim()) {
-    //
-    //   //var oldElement = element;
-    // }
+// if (!n.trim()) {
+//
+//   //var oldElement = element;
+// }
 
-    // if () {
-    //
-    // }
+// if () {
+//
+// }
 
 
-    //element = element.slice(1);
-    //newArray.push(element);
-    //console.log(n);
-    //console.log(element);
-    //console.log(counter);
+//element = element.slice(1);
+//newArray.push(element);
+//console.log(n);
+//console.log(element);
+//console.log(counter);
 
 // function getSelectionText() {
 //     if (window.getSelection) {
