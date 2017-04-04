@@ -53,26 +53,6 @@ $(document).ready(function() {
     });
 
 
-    // $("#previous-search-button").on("click", function() {
-    //   var searchField = $("#search-bar").val();
-    //     console.log("previous");
-    //     console.log(dataset);
-    //     console.log(searchField);
-    //     if(dataset != "" && searchField != ""){
-    //           $(document).scrollTop($(this).parent().next().offset().top);
-    //     }
-    // });
-    //
-    // $("#next-search-button").on("click", function() {
-    //     var searchField = $("#search-bar").val();
-    //     console.log("next");
-    //     $("mark").scrollTop($(this).parent().next().offset().top);
-    //     return false
-    //     // if(dataset != "" && searchField != ""){
-    //     //
-    //     // }
-    // });
-
     $('#document-textarea').on('mouseover mouseenter', '.mark', function() {
       var txt = $(this).html();
       //var count = $("mark").length;
@@ -123,9 +103,6 @@ $(document).ready(function() {
 
       }
 
-
-
-
       visual.onclick = function() {
 
           if(canvas != null) {
@@ -156,24 +133,12 @@ $(document).ready(function() {
             successDownload();
           }
 
-
-
-
-        // setDocDownload();
-        // setTimeout(function() {
-        //     $("#positive-alert").html("<strong>Download Successful!</strong>");
-        //     $("#positive-alert").fadeIn("slow", function() {
-        //         setTimeout(function() {
-        //             $("#positive-alert").fadeOut("slow");
-        //         }, 2000);
-        //     });
-        // }, 2000);
     });
 
 
-
+    //loading a file
     $("#file-load").on("click", function() {
-        var file = $("#selected-file").html();        
+        var file = $("#selected-file").html();
         if (file == "") {
             $("#negative-alert").html("<strong>Please select a document!</strong>");
             $("#negative-alert").fadeIn("slow", function() {
@@ -205,6 +170,36 @@ $(document).ready(function() {
     $("#upload-form").ajaxForm({
         url: 'ServerFiles/upload.php',
         type: 'post',
+        beforeSubmit: function() {
+          var file = document.getElementById("file-selector").value;
+          var author = document.getElementById("file-meta-author").value;
+          var title = document.getElementById("file-meta-title").value;
+          var type = document.getElementById("file-meta-genre").value;
+          var mime = file.substring(file.length - 4, file.length);
+
+          if(file.trim() == "" || author.trim() == "" || title.trim() == "" || type.trim() == "") {
+            $("#negative-alert").html("<strong>Please select a document and enter all meta data!</strong>");
+            $("#negative-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                    $("#negative-alert").fadeOut("slow");
+                }, 2000);
+            });
+
+            return false;
+
+          }
+          if (mime != ".txt") {
+            $("#negative-alert").html("<strong>Please ensure your file is a '.txt' document!</strong>");
+            $("#negative-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                    $("#negative-alert").fadeOut("slow");
+                }, 2000);
+            });
+
+            return false;
+          }
+
+        },
         success: function() {
             $("#upload-modal").delay(1000).fadeOut('slow');
             setTimeout(function() {
@@ -416,47 +411,60 @@ function wordCloud() {
   visualdiv.appendChild(contextItem);
   var canvas = document.getElementById("canvas");
 
-  var data = dataset;
+  var data = tagStripper(dataset);
 
   var options = {
     workerUrl: 'Libs/wordfreq/src/wordfreq.worker.js'
   };
 
 
-
   var wordfreq = WordFreq(options).process(data, function (items) {
 
-    var list = items.slice(0, 50);
+    console.log(items.length);
 
-    console.log(list);
+    if (items.length > 20) {
+      var list = items.slice(0, 50);
 
-    var highestCount = list[0][1];
-    var maxCount = 22;
-    //console.log(highestCount);
+      //console.log(list);
 
-    for (var i = 0; i < list.length; i++) {
-      var currentCount = list[i][1];
-      var normalisedCount = currentCount / (highestCount / maxCount);
-      list[i][1] = normalisedCount;
+      var highestCount = list[0][1];
+      var maxCount = 22;
+      //console.log(highestCount);
+
+      for (var i = 0; i < list.length; i++) {
+        var currentCount = list[i][1];
+        var normalisedCount = currentCount / (highestCount / maxCount);
+        list[i][1] = normalisedCount;
+      }
+
+      WordCloud(canvas, {
+        list: list,
+            gridSize: Math.round(16 * $('#canvas').width() / 1024),
+            weightFactor: function (size) {
+              return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
+            },
+            fontFamily: 'Times, serif',
+            color: function (word, weight) {
+              return (weight === 12) ? '#f02222' : '#2e2e2e';
+            },
+            rotateRatio: 0.5,
+            rotationSteps: 2,
+            backgroundColor: '#e7e7e7'
+
+      });
+
+    } else {
+        clearVisualisation();
+        $("#negative-alert").html("<strong>Please select a document with more words!</strong>");
+        $("#negative-alert").fadeIn("slow", function() {
+            setTimeout(function() {
+                $("#negative-alert").fadeOut("slow");
+            }, 2000);
+        });
+
+        return;
     }
 
-    console.log(list);
-
-    WordCloud(canvas, {
-      list: list,
-          gridSize: Math.round(16 * $('#canvas').width() / 1024),
-          weightFactor: function (size) {
-            return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
-          },
-          fontFamily: 'Times, serif',
-          color: function (word, weight) {
-            return (weight === 12) ? '#f02222' : '#2e2e2e';
-          },
-          rotateRatio: 0.5,
-          rotationSteps: 2,
-          backgroundColor: '#e7e7e7'
-
-    });
   });
 }
 
@@ -523,7 +531,7 @@ function tagCloud() {
   WordCloud(canvas, {
     list: list,
         gridSize: Math.round(16 * $('#canvas').width() / 1024),
-        weightFactor: 100,
+        weightFactor: 75,
         // weightFactor: function (size) {
         //   return Math.pow(size, 5) * $('#canvas').width() / 1024;
         // },
