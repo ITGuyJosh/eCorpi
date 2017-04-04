@@ -232,16 +232,54 @@ $(document).ready(function() {
           var selAttribute = $("#selected-attr").val();
           var selValue = $("#new-value").val();
 
-          var updatedXML = addTagToXML(text, searchTerm, selElement, selAttribute, selValue);
 
-          dataset = updatedXML;
 
-          //console.log(updatedXML);
+        if(searchTerm.trim() == ""){
+          $("#negative-alert").html("<strong>Please select a search term by highlighting and right clicking a word to assign!</strong>");
+          $("#negative-alert").fadeIn("slow", function() {
+              setTimeout(function() {
+                  $("#negative-alert").fadeOut("slow");
+              }, 2000);
+          });
 
-          formData.push(
-            {name: 'updatedXML',value: updatedXML},
-            {name: 'filename',value: filename}
-        );
+          return false;
+        }
+
+
+        if(selAttribute.trim() == ""){
+          $("#negative-alert").html("<strong>Please select an attribute by first clicking on an element!</strong>");
+          $("#negative-alert").fadeIn("slow", function() {
+              setTimeout(function() {
+                  $("#negative-alert").fadeOut("slow");
+              }, 2000);
+          });
+
+          return false;
+        }
+
+        if(selValue.trim() == ""){
+          $("#negative-alert").html("<strong>Please enter a value!</strong>");
+          $("#negative-alert").fadeIn("slow", function() {
+              setTimeout(function() {
+                  $("#negative-alert").fadeOut("slow");
+              }, 2000);
+          });
+
+          return false;
+        }
+
+
+        var updatedXML = addTagToXML(text, searchTerm, selElement, selAttribute, selValue);
+
+        dataset = updatedXML;
+
+        //console.log(updatedXML);
+
+        formData.push(
+          {name: 'updatedXML',value: updatedXML},
+          {name: 'filename',value: filename}
+      );
+
         },
         success: function() {
             $("#assign-tag-modal").delay(1000).fadeOut('slow');
