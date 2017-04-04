@@ -42,7 +42,7 @@ if(isset($_POST["submit"])) {
 
           //$dom->encoding("UTF-8");
 
-          $data = $dom->createElement('LiteraryWork');
+          $data = $dom->createElement('literarywork');
 
           $dom->appendChild($data);
 

@@ -93,7 +93,9 @@ $(document).ready(function() {
                 }, 2000);
             });
         } else {
+          clearVisualisation();
             loadFile(file);
+
             $("#load-modal").delay(1000).fadeOut('slow');
             setTimeout(function() {
                 $("#load-modal").modal('hide');
@@ -244,7 +246,12 @@ $(function() {
 
             if (key == "analyse-key2") {
                 clearVisualisation();
-                wordFreqCloud();
+                wordCloud();
+            }
+
+            if (key == "analyse-key3") {
+                clearVisualisation();
+                tagCloud();
             }
 
         },
@@ -294,7 +301,7 @@ $(function() {
 // SUPPORT FUNCTIONS
 
 // overview text selection
-function wordFreqCloud() {
+function wordCloud() {
   // Create an options object for initialization
   var visualdiv = document.getElementById("visualisation-selector");
   var contextItem = document.createElement("canvas");
@@ -303,23 +310,29 @@ function wordFreqCloud() {
   contextItem.setAttribute("width", "1448");
   contextItem.setAttribute("height", "940");
   visualdiv.appendChild(contextItem);
-
   var canvas = document.getElementById("canvas");
 
+  var data = dataset;
 
   var options = {
     workerUrl: 'Libs/wordfreq/src/wordfreq.worker.js'
   };
-  // Initialize and run process() function
-
-  var wordfreq = WordFreq(options).process(dataset, function (items) {
-    console.log(wordfreq);
-    // console.log the list returned in this callback.
-    //console.log(list);
-
-    var list = items.slice(0, 100);
 
 
+
+  var wordfreq = WordFreq(options).process(data, function (items) {
+
+    var list = items.slice(0, 50);
+
+    var highestCount = list[0][1];
+    var maxCount = 22;
+    //console.log(highestCount);
+
+    for (var i = 0; i < list.length; i++) {
+      var currentCount = list[i][1];
+      var normalisedCount = currentCount / (highestCount / maxCount);
+      list[i][1] = normalisedCount;
+    }
 
     WordCloud(canvas, {
       list: list,
@@ -329,51 +342,119 @@ function wordFreqCloud() {
           },
           fontFamily: 'Times, serif',
           color: function (word, weight) {
-            return (weight === 12) ? '#f02222' : '#c09292';
+            return (weight === 12) ? '#f02222' : '#2e2e2e';
           },
           rotateRatio: 0.5,
           rotationSteps: 2,
           backgroundColor: '#e7e7e7'
 
     });
-
-[
-  [tag, 0],
-  [tag, 0]
-]
-
-      // gridSize: Math.round(16 * $(canvas).width() / 1024),
-      //     weightFactor: function (size) {
-      //       return Math.pow(size, 2.3) * $(canvas).width() / 1024;
-      //     },
-      //     fontFamily: 'Times, serif',
-      //     color: function (word, weight) {
-      //       return (weight === 12) ? '#f02222' : '#c09292';
-      //     },
-      //     rotateRatio: 0.5,
-      //     rotationSteps: 2,
+  });
+}
 
 
-      // options: {
-      //     gridSize: Math.round(16 * $('#canvas').width() / 1024),
-      //     weightFactor: function (size) {
-      //       return Math.pow(size, 2.3) * $('#canvas').width() / 1024;
-      //     },
-      //     fontFamily: 'Times, serif',
-      //     color: function (word, weight) {
-      //       return (weight === 12) ? '#f02222' : '#c09292';
-      //     },
-      //     rotateRatio: 0.5,
-      //     rotationSteps: 2,
-      //     backgroundColor: '#ffe0e0'
-      // }
-      console.log(list);
 
 
+function tagCloud() {
+  //Create an options object for initialization
+  var visualdiv = document.getElementById("visualisation-selector");
+  var contextItem = document.createElement("canvas");
+  contextItem.setAttribute("id", "canvas");
+  contextItem.setAttribute("class", "wordcloud");
+  contextItem.setAttribute("width", "1448");
+  contextItem.setAttribute("height", "940");
+  visualdiv.appendChild(contextItem);
+  var canvas = document.getElementById("canvas");
+
+  var data = dataset;
+  var eleArr = [];
+  var docTagArray = [];
+
+  $.each(arrayOfAvailableTags, function( key, value ) {
+    eleArr.push(key);
+  });
+
+  for (var i = 0; i < eleArr.length; i++) {
+
+    var element = "<" + eleArr[i];
+    element = element.toLowerCase();
+
+    var n = occurrences(data.toLowerCase(), element, false);
+
+    if (n > 0) {
+        element = element.slice(1);
+        var tmp = new Array(element, n);
+        docTagArray.push(tmp);
+
+    }
+  }
+  arrayOfDocTags = docTagArray;
+  list = docTagArray;
+
+  console.log();
+
+  var lowestCount = list[0][1];
+  var maxCount = 22;
+  //console.log(highestCount);
+
+  for (var i = 0; i < list.length; i++) {
+    var currentCount = list[i][1];
+    var normalisedCount = currentCount / (highestCount / maxCount);
+    list[i][1] = normalisedCount;
+  }
+
+
+  WordCloud(canvas, {
+    list: list,
+        gridSize: Math.round(16 * $('#canvas').width() / 1024),
+        weightFactor: function (size) {
+          return Math.pow(size, 8) * $('#canvas').width() / 1024;
+        },
+        fontFamily: 'Times, serif',
+        color: function (word, weight) {
+          return (weight === 12) ? '#f02222' : '#2e2e2e';
+        },
+        rotateRatio: 0.5,
+        rotationSteps: 2,
+        backgroundColor: '#e7e7e7'
 
   });
-  console.log(wordfreq);
+
+
 }
+
+
+
+
+/** Function that count occurrences of a substring in a string;
+ * @param {String} string               The string
+ * @param {String} subString            The sub string to search for
+ * @param {Boolean} [allowOverlapping]  Optional. (Default:false)
+ *
+ * @author Vitim.us https://gist.github.com/victornpb/7736865
+ * @see Unit Test https://jsfiddle.net/Victornpb/5axuh96u/
+ * @see http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
+ */
+function occurrences(string, subString, allowOverlapping) {
+
+    string += "";
+    subString += "";
+    if (subString.length <= 0) return (string.length + 1);
+
+    var n = 0,
+        pos = 0,
+        step = allowOverlapping ? 1 : subString.length;
+
+    while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) {
+            ++n;
+            pos += step;
+        } else break;
+    }
+    return n;
+}
+
 
 function wordContext(sel){
   var strippedfile = tagStripper(dataset);
@@ -382,14 +463,15 @@ function wordContext(sel){
   var visualdiv = document.getElementById("visualisation-selector");
 
   arrayOfWords.forEach(function(word){
-    if(word == sel){
+    if(word.toUpperCase() == sel.toUpperCase()){
       var wordindex = arrayOfWords.indexOf(word);
-      var pre = wordindex - 4;
-      var splice = arrayOfWords.splice(pre, 8);
+
+      var pre = wordindex - 5;
+      var splice = arrayOfWords.splice(pre, 9);
       //var postsplice = arrayOfWords.splice(post, wordindex);
-      console.log(wordindex);
-      console.log(pre);
-      console.log(splice);
+      // console.log(wordindex);
+      // console.log(pre);
+      // console.log(splice);
 
       var join = splice.join(" ");
 
@@ -517,7 +599,7 @@ function fileLoader(file) {
     var textarea = document.getElementById("document-textarea");
     var title = this.url.split("php?")[1];
     var noXMLTitle = title.split(".xml")[0];
-    textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + strippedfile + "</pre>";
+    textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + dataset + "</pre>";
 
     //var options = {"className": "tagmark"};
     //$(".formatted-content").markRegExp(/>(.*?)<\//ig, options);
@@ -555,6 +637,11 @@ function parseXMLTags(data){
 
 function getDocumentTags(dataset){
   var data = dataset;
+  var tags = arrayOfAvailableTags;
+  for (var i = 0; i < tags.length; i++) {
+    console.log(tags[i]);
+  }
+
 
   var stringData = toString(data);
   var words = getDatasetWords(data);
@@ -563,8 +650,8 @@ function getDocumentTags(dataset){
   //var xmlDoc = parseXMLTags(data);
 
 
-  console.log(tags);
-  console.log(stringData);
+  //console.log(tags);
+  //console.log(stringData);
 
   //arrayOfAvailableTags.
 
@@ -593,21 +680,24 @@ function getDatasetWords(dataset){
   //var result = tagsArray.match(/<[^>]*>/g);
   //>(.*?)<\/
 
-  ">myriad</"
+  //">myriad</"
 
-  var result = stringData.match(/>(.*?)<\//g)[0].slice(1, -2);
-
-
+  //var result = stringData.match(/>(.*?)<\//g)[0].slice(1, -2);
 
 
 
+
+// [
+//   [person, 5],
+//   [time, 3]
+// ]
 
 
   // .map(function(val){
   //    return val.replace(/<\/?b>/g,'');
   // });
 
-  console.log(tagsArray);
+  //console.log(tagsArray);
 
   //var textAsArray = dataset.split(" ");
   //var checkElement = "<";
@@ -633,6 +723,8 @@ function getDatasetWords(dataset){
 
 
 }
+
+// function getAvailableTags
 
 function tagStripper(dataset){
 
@@ -722,6 +814,128 @@ function tagRenderer(ev) {
 
 
 //  MESS
+
+// function createArray(length) {
+//     var arr = new Array(length || 0),
+//         i = length;
+//
+//     if (arguments.length > 1) {
+//         var args = Array.prototype.slice.call(arguments, 1);
+//         while(i--) arr[length-1 - i] = createArray.apply(this, args);
+//     }
+//
+//     return arr;
+// }
+
+//console.log("key => " + key);//will output: 04c85ccab52880 and all such
+
+
+// $.each( value, function( ky, val ) {
+//     console.log('ky => '+ky);//will output: name, firstname, societe
+//     console.log('val => '+val);//will output: name1, fname1, soc1
+// });
+
+//var myArray = [[]];
+
+// for (var myArray=[]; myArray.push([])<10;);
+//
+// console.log(myArray);
+
+// for (var j = 0; j < array.length; j++) {
+//   myArray = myArray.push
+// }
+//
+// //docTagArray[i] = docTagArray[i].push([element, n]);
+//
+// var rows = 8;
+// var cols = 7;
+//
+// // expand to have the correct amount or rows
+// for( var j=0; j<eleArr.length; j++ ) {
+//   myArray.push( [] );
+// }
+//
+// // expand all rows to have the correct amount of cols
+// for (var k = 0; k < rows; k++)
+// {
+//     for (var l =  myArray[i].length; l < cols; l++)
+//     {
+//         myArray[k].push(0);
+//     }
+// }
+
+//docTagArray.push(i);
+// docTagArray.push("hi");
+// console.log(arrayOfAvailableTags);
+// console.log(dictionary);
+//
+// var docTagArray = $.map(dictionary, function(value, index) {
+//
+//   return [value];
+// });
+//
+// console.log(docTagArray);
+
+
+// var count = Object.keys(dictionary).length;
+//
+// for (var i = 0; i < count; i++) {
+//   $.each(dictionary, function( key, value ) {
+//     docTagArray[i].push(key, value);
+//   });
+// }
+
+
+
+//console.log(myArray);
+
+//console.log(newArray);
+
+//console.log(arr);
+
+// for (var i = 0; i < arrayOfAvailableTags.length; i++) {
+//   console.log(tags);
+// }
+
+// WordCloud(canvas, {
+//   list: list,
+//       gridSize: Math.round(16 * $('#canvas').width() / 1024),
+//       weightFactor: function (size) {
+//         return Math.pow(size, 2.8) * $('#canvas').width() / 1024;
+//       },
+//       fontFamily: 'Times, serif',
+//       color: function (word, weight) {
+//         return (weight === 12) ? '#f02222' : '#2e2e2e';
+//       },
+//       rotateRatio: 0.5,
+//       rotationSteps: 2,
+//       backgroundColor: '#e7e7e7'
+//
+// });
+
+
+
+    //console.log("This is " + n);
+
+
+    //console.log(n);
+
+
+    // if (!n.trim()) {
+    //
+    //   //var oldElement = element;
+    // }
+
+    // if () {
+    //
+    // }
+
+
+    //element = element.slice(1);
+    //newArray.push(element);
+    //console.log(n);
+    //console.log(element);
+    //console.log(counter);
 
 // function getSelectionText() {
 //     if (window.getSelection) {

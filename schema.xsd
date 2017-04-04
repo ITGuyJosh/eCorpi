@@ -5,7 +5,7 @@
 
 <!-- targetNamespace="https://1525770.linux.studentwebserver.co.uk/ecorpi/" -->
 
-<xs:element name="LiteraryWork">
+<xs:element name="literarywork">
   <xs:complexType>
     <xs:attribute name="Author" type="xs:string"/>
     <xs:attribute name="Title" type="xs:string"/>
@@ -13,7 +13,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Person">
+<xs:element name="person">
   <xs:complexType>
     <xs:attribute name="Gender" type="xs:string"/>
     <xs:attribute name="CharacterRole" type="xs:string"/>
@@ -28,7 +28,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="PersonContext">
+<xs:element name="personcontext">
   <xs:complexType>
     <xs:attribute name="PersonForm" type="xs:string"/>
     <xs:attribute name="NumberOfPeople" type="xs:integer"/>
@@ -38,7 +38,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Emotion">
+<xs:element name="emotion">
   <xs:complexType>
     <xs:attribute name="Type" type="xs:string"/>
     <xs:attribute name="Form" type="xs:string"/>
@@ -47,7 +47,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Place">
+<xs:element name="place">
   <xs:complexType>
     <xs:attribute name="Type" type="xs:string"/>
     <xs:attribute name="Context" type="xs:string"/>
@@ -58,7 +58,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Action">
+<xs:element name="action">
   <xs:complexType>
     <xs:attribute name="Type" type="xs:string"/>
     <xs:attribute name="Form" type="xs:string"/>
@@ -67,7 +67,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Animal">
+<xs:element name="animal">
   <xs:complexType>
     <xs:attribute name="Type" type="xs:string"/>
     <!-- allow custom attributes -->
@@ -75,7 +75,7 @@
   </xs:complexType>
 </xs:element>
 
-<xs:element name="Time">
+<xs:element name="time">
   <xs:complexType>
     <xs:attribute name="Type" type="xs:string"/>
     <xs:attribute name="Season" type="xs:string"/>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LiteraryWork Author="" Title="" Type="">Rupert Brooke was both fair to see and winning in his ways.  There was
-at the first contact both bloom and charm; and most of all there was life.
+at the first contact both <emotion type="Happiness">bloom</emotion> and charm; and most of all there was life.
 To use the word his friends describe him by, he was "vivid".
 This vitality, though manifold in expression, is felt primarily
 in his sensations -- surprise mingled with delight --
 
     "One after one, like tasting a sweet food."
 
-This is life's "first fine rapture".  It makes him patient to
+This is life's "first fine rapture".  It <place context="Office">makes</place> him patient to
 name over those <emotion type="Nice">myriad</emotion> things (each of which seems like a fresh discovery)
 curious but potent, and above all common, that he "loved", --
 he the "Great Lover".  Lover of what, then?  Why, of
@@ -15,7 +15,7 @@ he the "Great Lover".  Lover of what, then?  Why, of
     "White plates and cups clean-gleaming,
     Ringed with blue lines," --
 
-and the like, through thirty lines of exquisite words; and he is captivated
+and the like, through thirty <emotion form="Comedy">lines</emotion> of exquisite words; and he is captivated
 by the multiple brevity of these vignettes of sense, keen, momentary,
 ecstatic with the morning dip of youth in the wonderful stream.
 The poem is a catalogue of vital sensations and "dear names" as well.
@@ -150,7 +150,7 @@ as much as the things, -- "dear names", he adds.  The born man of letters
 speaks there.  So, when his pulse is at its lowest,
 he cannot forget the beautiful surface of his South Sea idyls
 or of versified English gardens and lanes.  He cared as much
-for the expression as for the thing, which is what makes a man of letters.
+for the expression as for the thing, which is what <place context="Office">makes</place> a man of letters.
 So fixed is this habit that his art, truly, is independent
 of his bodily state.  In his poems of "collapse" as in those of "ecstasy"
 he seems to me equally master of his mood, -- like those poets who are
