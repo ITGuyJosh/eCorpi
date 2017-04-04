@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LiteraryWork Author="Frank" Title="Story" Type="Adventure">PART I
+<literarywork Author="frank" Title="franks book" Type="adventure">PART I
 
 THE CHEROKEE
 
@@ -22,7 +22,7 @@ This history has been gleaned from the works of Ethnology by James
 Mooney and from word of mouth, as related to the author during the
 past thirty years.
 
-In the <time timeoftheday="Start">beginning</time> of historical events, we hear of man in his
+In the beginning of historical events, we hear of man in his
 paradisaical home, located somewhere within the boundaries known
 as ancient Egypt or Chaldea. His home was far away and his former
 history shrouded in the darkness of countless centuries of the past,
@@ -344,4 +344,4 @@ At this writing the eastern band of Cherokee is about to be dissolved,
 their lands allotted, and in a few more decades the Cherokee will
 have passed, and the name will be presented only in old records and
 in the hearts of their descendants.
-</LiteraryWork>
+</literarywork>

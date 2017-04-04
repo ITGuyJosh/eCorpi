@@ -2,6 +2,7 @@
 var dataset = "";
 var arrayOfAvailableTags = [[]];
 var arrayOfDocTags = [[]];
+var docName;
 
 //ON DOC READY
 $(document).ready(function() {
@@ -43,6 +44,15 @@ $(document).ready(function() {
 
     getAvailableTags();
 
+
+    //removing chrome fakepath
+    $("#upload-file-info").on("DOMSubtreeModified", function() {
+      var text = $('#upload-file-info').html();
+      text = text.substring(text.lastIndexOf("\\") + 1, text.length);
+      $('#upload-file-info').html(text);
+    });
+
+
     // $("#previous-search-button").on("click", function() {
     //   var searchField = $("#search-bar").val();
     //     console.log("previous");
@@ -83,8 +93,87 @@ $(document).ready(function() {
     $("#load-modal-button").on("click", function() {
         getAvailableFiles();
     });
+
+
+    //downloads
+    $("#export-modal-button").on("click", function() {
+
+      var doc = document.getElementById("exportDoc");
+      var visual = document.getElementById("exportVisual");
+      var schema = document.getElementById("exportSchema");
+      var canvas = document.getElementById("canvas");
+
+      doc.onclick = function(){
+        if(docName != null) {
+          var link = "UserFiles\\Files\\" + docName;
+          doc.href = link;
+          doc.setAttribute("download",docName);
+          doc.click();
+
+          successDownload();
+
+        } else {
+          $("#negative-alert").html("<strong>Please load a document!</strong>");
+          $("#negative-alert").fadeIn("slow", function() {
+              setTimeout(function() {
+                  $("#negative-alert").fadeOut("slow");
+              }, 2000);
+          });
+        }
+
+      }
+
+
+
+
+      visual.onclick = function() {
+
+          if(canvas != null) {
+
+            visual.href = canvas.toDataURL();
+            visual.download = "visualisation.png";
+            visual.click();
+
+            successDownload();
+          } else {
+            $("#negative-alert").html("<strong>Please use a frequency analysis first!</strong>");
+            $("#negative-alert").fadeIn("slow", function() {
+                setTimeout(function() {
+                    $("#negative-alert").fadeOut("slow");
+                }, 2000);
+            });
+          }
+
+      }
+
+
+        schema.onclick = function(){
+
+            var link = "schema.xsd";
+            schema.href = link;
+            schema.setAttribute("download", link);
+            schema.click();
+            successDownload();
+          }
+
+
+
+
+        // setDocDownload();
+        // setTimeout(function() {
+        //     $("#positive-alert").html("<strong>Download Successful!</strong>");
+        //     $("#positive-alert").fadeIn("slow", function() {
+        //         setTimeout(function() {
+        //             $("#positive-alert").fadeOut("slow");
+        //         }, 2000);
+        //     });
+        // }, 2000);
+    });
+
+
+
     $("#file-load").on("click", function() {
-        var file = $("#selected-file").html();
+        var file = $("#selected-file").html();        
         if (file == "") {
             $("#negative-alert").html("<strong>Please select a document!</strong>");
             $("#negative-alert").fadeIn("slow", function() {
@@ -95,7 +184,6 @@ $(document).ready(function() {
         } else {
           clearVisualisation();
             loadFile(file);
-
             $("#load-modal").delay(1000).fadeOut('slow');
             setTimeout(function() {
                 $("#load-modal").modal('hide');
@@ -135,6 +223,8 @@ $(document).ready(function() {
         clearForm: true
     });
 
+
+
     // assign tags
     $("#assign-tags-form").ajaxForm({
         url: 'ServerFiles/assign.php',
@@ -164,6 +254,10 @@ $(document).ready(function() {
                 $("#assign-tag-modal").modal('hide');
             }, 1500);
 
+            clearVisualisation();
+            loadFile(docName);
+
+
             setTimeout(function() {
                 $("#positive-alert").html("<strong>Assign Successful!</strong>");
                 $("#positive-alert").fadeIn("slow", function() {
@@ -179,6 +273,16 @@ $(document).ready(function() {
     });
 
 });
+
+
+function successDownload() {
+  $("#positive-alert").html("<strong>Download Successful!</strong>");
+  $("#positive-alert").fadeIn("slow", function() {
+      setTimeout(function() {
+          $("#positive-alert").fadeOut("slow");
+      }, 2000);
+  });
+}
 
 /**
 * @name addTagToXML
@@ -324,6 +428,8 @@ function wordCloud() {
 
     var list = items.slice(0, 50);
 
+    console.log(list);
+
     var highestCount = list[0][1];
     var maxCount = 22;
     //console.log(highestCount);
@@ -333,6 +439,8 @@ function wordCloud() {
       var normalisedCount = currentCount / (highestCount / maxCount);
       list[i][1] = normalisedCount;
     }
+
+    console.log(list);
 
     WordCloud(canvas, {
       list: list,
@@ -354,6 +462,15 @@ function wordCloud() {
 
 
 
+function setDocDownload(){
+  var doc = document.getElementById("exportDoc");
+  var link = "UserFiles\\Files\\" + docName;
+  //console.log(docName);
+  //console.log(link);
+
+  doc.href = link;
+}
+
 
 function tagCloud() {
   //Create an options object for initialization
@@ -365,7 +482,6 @@ function tagCloud() {
   contextItem.setAttribute("height", "940");
   visualdiv.appendChild(contextItem);
   var canvas = document.getElementById("canvas");
-
   var data = dataset;
   var eleArr = [];
   var docTagArray = [];
@@ -397,19 +513,20 @@ function tagCloud() {
   var maxCount = 22;
   //console.log(highestCount);
 
-  for (var i = 0; i < list.length; i++) {
-    var currentCount = list[i][1];
-    var normalisedCount = currentCount / (highestCount / maxCount);
-    list[i][1] = normalisedCount;
-  }
+  // for (var i = 0; i < list.length; i++) {
+  //   var currentCount = list[i][1];
+  //   var normalisedCount = currentCount / (highestCount / maxCount);
+  //   list[i][1] = normalisedCount;
+  // }
 
 
   WordCloud(canvas, {
     list: list,
         gridSize: Math.round(16 * $('#canvas').width() / 1024),
-        weightFactor: function (size) {
-          return Math.pow(size, 8) * $('#canvas').width() / 1024;
-        },
+        weightFactor: 100,
+        // weightFactor: function (size) {
+        //   return Math.pow(size, 5) * $('#canvas').width() / 1024;
+        // },
         fontFamily: 'Times, serif',
         color: function (word, weight) {
           return (weight === 12) ? '#f02222' : '#2e2e2e';
@@ -468,10 +585,6 @@ function wordContext(sel){
 
       var pre = wordindex - 5;
       var splice = arrayOfWords.splice(pre, 9);
-      //var postsplice = arrayOfWords.splice(post, wordindex);
-      // console.log(wordindex);
-      // console.log(pre);
-      // console.log(splice);
 
       var join = splice.join(" ");
 
@@ -598,6 +711,8 @@ function fileLoader(file) {
 
     var textarea = document.getElementById("document-textarea");
     var title = this.url.split("php?")[1];
+    docName = title;
+
     var noXMLTitle = title.split(".xml")[0];
     textarea.innerHTML = '<pre id="' + noXMLTitle + '" class="formatted-content">' + dataset + "</pre>";
 

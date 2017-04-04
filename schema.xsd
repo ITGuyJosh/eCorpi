@@ -3,8 +3,6 @@
   xmlns="https://1525770.linux.studentwebserver.co.uk/ecorpi/"
   elementFormDefault="qualified">
 
-<!-- targetNamespace="https://1525770.linux.studentwebserver.co.uk/ecorpi/" -->
-
 <xs:element name="literarywork">
   <xs:complexType>
     <xs:attribute name="Author" type="xs:string"/>
