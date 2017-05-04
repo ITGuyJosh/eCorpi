@@ -7,7 +7,7 @@ Over the past few decades, Visual Analytics has been applied to large dataset an
 ### Aim
 To create a web-based visualisation tool that undertakes text analysis for Digital Humanities literature. It will reveal contextual relationships and meanings of the content, primarily literary sources e.g. Arthurian poems, so Digital Humanities members can perform effective decision making of complex data sets.
 
-###Objectives
+### Objectives
 - Creating a web-based visualisation tool,
 - Discovering whether visual analytics is appropriate for analysing complex data sets, as applied to the digital humanities,
 - Discovering whether interactive visualisation tools enable gaining insight into problems, as applied to the digital humanities.
