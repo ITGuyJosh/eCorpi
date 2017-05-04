@@ -26,10 +26,6 @@ for ($i=0; $i < $length; $i++) {
       $name = $values[$i]["attributes"]["NAME"];
       $j = $i + 1;
 
-      // if ($name == ""){
-      //
-      // }
-
       if ($name != "") {
           $found = false;
       }
@@ -61,12 +57,7 @@ $newarray = [];
 foreach($output as $value) {
   $newarray += $value;
 }
-//var_dump($new);
 
-//print_r($values);
-//print_r($output);
 echo json_encode($newarray);
-//$unset = unset($output["LiteraryWork"]);
-//print_r($unset);
 
 ?>
